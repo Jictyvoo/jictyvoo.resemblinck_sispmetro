@@ -6,12 +6,15 @@ import java.awt.EventQueue;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import javax.swing.JComboBox;
+import javax.swing.JButton;
 
 public class MapGUI {
 
 	private JFrame frame;
-	private JTextField StationOrigin;
-	private JTextField StationDestiny;
+	private JComboBox originStation;
+	private JComboBox destinyStation;
+	private JButton btnCalcularRota;
 	private JPanel panel;
 
 	/**
@@ -42,19 +45,20 @@ public class MapGUI {
 	 */
 	private void initialize() {
 		frame = new JFrame();
-		frame.setBounds(100, 100, 450, 300);
+		frame.setBounds(100, 100, 490, 360);
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
+		originStation = new JComboBox();
+		frame.getContentPane().add(originStation, BorderLayout.WEST);
+		
+		destinyStation = new JComboBox();
+		frame.getContentPane().add(destinyStation, BorderLayout.CENTER);
+		
+		btnCalcularRota = new JButton("Calcular Rota");
+		frame.getContentPane().add(btnCalcularRota, BorderLayout.EAST);
+		
 		panel = new JPanel();
-		frame.getContentPane().add(panel, BorderLayout.EAST);
-		
-		StationOrigin = new JTextField();
-		frame.getContentPane().add(StationOrigin, BorderLayout.WEST);
-		StationOrigin.setColumns(5);
-		
-		StationDestiny = new JTextField();
-		frame.getContentPane().add(StationDestiny, BorderLayout.CENTER);
-		StationDestiny.setColumns(5);
+		frame.getContentPane().add(panel, BorderLayout.NORTH);
 	}
 
 }

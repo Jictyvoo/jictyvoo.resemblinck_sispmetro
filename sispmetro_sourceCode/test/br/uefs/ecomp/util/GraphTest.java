@@ -7,7 +7,7 @@ import org.junit.Test;
 public class GraphTest {
 
 	@Test
-	public void test() {
+	public void testInsertVertexAndEdge() {
 		Graph littleGraph = new Graph();
 
 		littleGraph.addVertex("A");
@@ -17,11 +17,15 @@ public class GraphTest {
 		littleGraph.addVertex("E");
 		littleGraph.addVertex("F");
 
-		littleGraph.addEdge("A", "B", 2);
-		littleGraph.addEdge("A", "C", 2);
-		littleGraph.addEdge("A", "F", 2);
+		littleGraph.addEdge("A", "B", 3);
+		littleGraph.addEdge("A", "F", 5);
+		littleGraph.addEdge("B", "F", 1);
+		littleGraph.addEdge("F", "C", 2);
+		littleGraph.addEdge("F", "E", 2);
+		littleGraph.addEdge("C", "E", 4);
+		littleGraph.addEdge("C", "D", 5);
 
-		assertEquals(3, littleGraph.getNumOfEdges());
+		assertEquals(7, littleGraph.getNumOfEdges());
 		assertEquals(6, littleGraph.getNumOfVertex());
 	}
 

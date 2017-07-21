@@ -1,0 +1,14 @@
+#####__________UserStories__________#####
+
+Ler arquivo de dados para por no grafo
+selecionar estação de origem
+selecionar estação de destino
+traçar rota
+Inserir tempo de espera por estação
+
+#####__________Tarefas Restantes__________#####
+
+Terminar algoritmo de Dikstra
+Fazer a interface gráfica
+Carregar o mapa
+Adicionar tempo de espera

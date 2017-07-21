@@ -1,0 +1,17 @@
+# Arquivo descrevendo o tempo entre as estações do Metrô de São Paulo.
+# Linhas iniciadas com o caractere '#' representam comentários e devem ser ignoradas.
+# Cada linha do arquivo está no seguinte formato:
+# <Estação A>, <Estação B>, <tempo>
+# A <Estação A> representa a estação de origem, a <Estação B> representa a
+# estação de destino, e <tempo> é o tempo que um trem leva para ir de A a B.
+# Uma conexão entre uma estação A e B implica necessariamente que haja
+# uma conexão entre B e A, e o tempo que o trem leva para ir de A a B é igual ao
+# tempo que o trem leva para ir de B para A.
+#
+#Linha 1
+#
+Tucuruvi, Parada Inglesa, 2
+Parada Inglesa, Jardim São Paulo-Ayrton Senna, 2
+Jardim São Paulo-Ayrton Senna, Santana, 3
+Santana, Carandiru, 2
+Carandiru, Portuguesa-Tietê, 2

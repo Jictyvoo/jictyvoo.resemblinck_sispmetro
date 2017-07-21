@@ -75,4 +75,10 @@ public class Vertex {
 	public Edge[] getEdges(){
 		return this.edges;
 	}
+
+	@Override
+	public String toString() {
+		return this.vertexName;
+	}
+	
 }

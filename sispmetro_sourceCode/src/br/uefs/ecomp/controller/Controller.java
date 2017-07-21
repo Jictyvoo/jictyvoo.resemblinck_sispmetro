@@ -8,6 +8,17 @@ import java.io.IOException;
 import br.uefs.ecomp.util.Graph;
 
 public class Controller {
+	
+	private static Controller controllerInstance;
+	
+	private Controller() {}
+	
+	public static Controller getInstance() {
+		if(controllerInstance == null)
+			controllerInstance = new Controller();
+		return controllerInstance;
+	}
+	
 	public void parseFile(String fileNamePath, Graph saveVertexEdgesGraph) throws FileNotFoundException {
 		FileReader openingFile = new FileReader(fileNamePath);
 		BufferedReader informationReaded = new BufferedReader(openingFile);
@@ -17,11 +28,11 @@ public class Controller {
 			while ((lineReaded = informationReaded.readLine()) != null) {	/*Lê cada linha do arquivo até chegar no final*/
 				if(lineReaded.charAt(0) == '#')
 					continue;
-				String[] edgesInformations = lineReaded.split(",|,\\s");
+				String[] edgesInformations = lineReaded.split(",\\s|,");
 				saveVertexEdgesGraph.addVertex(edgesInformations[0]);	/*adiciona os vertices no grafo*/
 				saveVertexEdgesGraph.addVertex(edgesInformations[1]);	/*adiciona os vertices no grafo*/
 
-				saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[3]));	/*adiciona a aresta no grafo*/
+				saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[2]));	/*adiciona a aresta no grafo*/
 			}
 		} catch (IOException e) {
 			e.printStackTrace();

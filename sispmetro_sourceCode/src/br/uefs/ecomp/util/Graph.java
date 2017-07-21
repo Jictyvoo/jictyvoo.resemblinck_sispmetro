@@ -13,6 +13,28 @@ public class Graph {
 		this.next = 0;
 	}
 	
+	public Graph(char type, int quantity) {
+		this.allVertex = new Vertex[quantity];
+		this.next = quantity;
+		char previous = 'A';
+			for(int position = 0; position < quantity; position += 1) {
+				this.allVertex[position] = new Vertex("" + previous);
+				previous += 1;
+			}
+
+		if(type == 'K' || type == 'k') {
+			for(int position = 0; position < quantity; position += 1) 
+				for(int additing = position + 1; additing < quantity; additing += 1)
+					this.allVertex[position].addEdge(this.allVertex[additing], 1);
+			
+		}
+		else if(type == 'C' || type == 'c') {
+			for(int position = 0; position < quantity - 1; position += 1)
+				this.allVertex[position].addEdge(this.allVertex[position + 1], 1);
+			this.allVertex[0].addEdge(this.allVertex[quantity - 1], 1);
+		}
+	}
+	
 	private void expandVertex(){
 		Vertex[] temporaryV = new Vertex[this.allVertex.length + 1];
 		for(int position = 0; position < this.allVertex.length; position += 1)
@@ -97,4 +119,18 @@ public class Graph {
 		returnStack.push(first);	/*adiciona o primeiro elemento para iniciar a busca recursiva*/
 		return this.searchWay(second, returnStack);
 	}
+
+	@Override
+	public String toString() {
+		String vertexId = "";
+		for(int position = 0; position < this.next; position += 1) {
+			if(position != this.next - 1)
+				vertexId = vertexId + this.allVertex[position] + "*#*";
+			else
+				vertexId = vertexId + this.allVertex[position];				
+		}
+		return "Graph [NumOfVertex = " + getNumOfVertex() + ", NumOfEdges = " + getNumOfEdges() + "]" +
+				"\r\nallVertex=[" + vertexId + "]";
+	}
+
 }
