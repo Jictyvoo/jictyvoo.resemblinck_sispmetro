@@ -12,7 +12,7 @@ public class Graph {
 		this.allVertex = new Vertex[1];
 		this.next = 0;
 	}
-	
+
 	public Graph(char type, int quantity) {
 		this.allVertex = new Vertex[quantity];
 		this.next = quantity;
@@ -34,7 +34,7 @@ public class Graph {
 			this.allVertex[0].addEdge(this.allVertex[quantity - 1], 1);
 		}
 	}
-	
+
 	private void expandVertex(){
 		Vertex[] temporaryV = new Vertex[this.allVertex.length + 1];
 		for(int position = 0; position < this.allVertex.length; position += 1)
@@ -42,7 +42,7 @@ public class Graph {
 		
 		this.allVertex = temporaryV;
 	}
-	
+
 	private Vertex foundVertex(String vertexNameSearch){
 		for(int position = 0; position < this.next; position += 1) {
 			Vertex search = this.allVertex[position];
@@ -51,7 +51,7 @@ public class Graph {
 		}
 		return null;
 	}
-	
+
 	public void addVertex(String newVertexName){
 		if(this.foundVertex(newVertexName) == null){
 			if(this.next == this.allVertex.length)
@@ -61,7 +61,7 @@ public class Graph {
 			this.next += 1;
 		}
 	}
-	
+
 	public boolean removeVertex(String vertexName) {
 		Vertex deleted = this.foundVertex(vertexName);
 		if(deleted == null)
@@ -76,7 +76,7 @@ public class Graph {
 		}
 		return true;
 	}
-	
+
 	public boolean addEdge(String firstVertex, String secondVertex, int edgeCost){
 		Vertex first = this.foundVertex(firstVertex);
 		Vertex second = this.foundVertex(secondVertex);
@@ -84,7 +84,7 @@ public class Graph {
 			return false;
 		return first.addEdge(second, edgeCost);
 	}
-	
+
 	public boolean removeEdge(String firstVertex, String secondVertex) {
 		Vertex first = this.foundVertex(firstVertex);
 		Vertex second = this.foundVertex(secondVertex);
@@ -92,11 +92,11 @@ public class Graph {
 			return false;
 		return first.removeEdge(second);
 	}
-	
+
 	public int getNumOfVertex() {
 		return this.next;
 	}
-	
+
 	public int getNumOfEdges() {
 		int returnNumber = 0;
 		for(int position = 0; position < this.next; position += 1) {
@@ -105,18 +105,31 @@ public class Graph {
 		}
 		return returnNumber/2;
 	}
-	
-	private IStack<Vertex> searchWay(Vertex searching, IStack<Vertex> visited) {	/*Dikstra*/
+
+	private WaySearch<Vertex> searchWay(Vertex searching, WaySearch<Vertex> visited) {	/*Dikstra*/
+		Edge[] edges = visited.peek().getEdges();
+		int count = 0;
+		for(int position = 0; position < visited.peek().vertexDegree(); position += 1) {
+			if(visited.contains(edges[position].getVertex()))
+				count += 1;
+			else {
+				WaySearch<Vertex> visiteNew = visited.copy();
+				visiteNew.push(edges[position].getVertex(), edges[position].getCost());
+				return this.searchWay(searching, visiteNew);
+			}
+		}
+		if(count == visited.peek().vertexDegree())
+			return visited;
 		return null;
 	}
-	
-	public IStack<Vertex> minorWay(String origin, String destiny) {	/*Mudar de Fila para Pilha*/
+
+	public WaySearch<Vertex> minorWay(String origin, String destiny) {	/*Mudar de Fila para Pilha*/
 		Vertex first = this.foundVertex(origin);
 		Vertex second = this.foundVertex(destiny);
 		if(first == null || second == null)
 			return null;
-		IStack<Vertex> returnStack = new Stack<Vertex>();
-		returnStack.push(first);	/*adiciona o primeiro elemento para iniciar a busca recursiva*/
+		WaySearch<Vertex> returnStack = new WaySearch<Vertex>();
+		returnStack.push(first, 0);	/*adiciona o primeiro elemento para iniciar a busca recursiva*/
 		return this.searchWay(second, returnStack);
 	}
 

@@ -1,10 +1,10 @@
 package br.uefs.ecomp.util;
 
-import static org.junit.Assert.assertEquals;
-
 import org.junit.Test;
 
-public class GraphTest {
+import junit.framework.TestCase;
+
+public class GraphTest extends TestCase {
 
 	@Test
 	public void testInsertVertexAndEdge() {
@@ -27,6 +27,17 @@ public class GraphTest {
 
 		assertEquals(7, littleGraph.getNumOfEdges());
 		assertEquals(6, littleGraph.getNumOfVertex());
+	}
+	
+	@Test
+	public void testGraphConstructor() {
+		Graph testGraph = new Graph('C', 10);
+		assertEquals(10, testGraph.getNumOfVertex());
+		assertEquals(10, testGraph.getNumOfEdges());
+		
+		testGraph = new Graph('K', 4);
+		assertEquals(4, testGraph.getNumOfVertex());
+		assertEquals(6, testGraph.getNumOfEdges());
 	}
 
 }
