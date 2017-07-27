@@ -105,32 +105,71 @@ public class Graph {
 		}
 		return returnNumber/2;
 	}
-
-	private WaySearch<Vertex> searchWay(Vertex searching, WaySearch<Vertex> visited) {	/*Dikstra*/
-		Edge[] edges = visited.peek().getEdges();
-		int count = 0;
-		for(int position = 0; position < visited.peek().vertexDegree(); position += 1) {
-			if(visited.contains(edges[position].getVertex()))
-				count += 1;
-			else {
-				WaySearch<Vertex> visiteNew = visited.copy();
-				visiteNew.push(edges[position].getVertex(), edges[position].getCost());
-				return this.searchWay(searching, visiteNew);
-			}
+	
+	private class Searching {
+		private Vertex vertex;
+		private boolean visited;
+		private int sizeOfWay;
+		private IQueue<Vertex> way;
+		
+		Searching(Vertex vertexReceived) {
+			this.vertex = vertexReceived;
+			this.visited = false;
+			this.sizeOfWay = Integer.MAX_VALUE;
+			this.way = null;
 		}
-		if(count == visited.peek().vertexDegree())
-			return visited;
+		
+		boolean asVisited() {
+			return this.visited;
+		}
+		
+		Vertex getVertex() {
+			return this.vertex;
+		}
+		
+		int getSizeOfWay() {
+			return this.sizeOfWay;
+		}
+		
+		void setSizeOfWay(int newSize) {
+			this.sizeOfWay = newSize;
+		}
+		
+		IQueue<Vertex> getWay() {
+			return this.way;
+		}
+		
+		void setWay(IQueue<Vertex> newWay) {
+			this.way = newWay;
+		}
+		
+	}
+
+	private IQueue<Vertex> searchWay(Vertex first, Vertex destiny, Searching[] searching) {	/*Dijkstra*/
+		Vertex origin = first;
+		/*begins the loop, and only stops if reached the destiny and the way as the minor of all*/
 		return null;
 	}
 
-	public WaySearch<Vertex> minorWay(String origin, String destiny) {	/*Mudar de Fila para Pilha*/
+	public IQueue<Vertex> minorWay(String origin, String destiny) {
 		Vertex first = this.foundVertex(origin);
 		Vertex second = this.foundVertex(destiny);
 		if(first == null || second == null)
 			return null;
-		WaySearch<Vertex> returnStack = new WaySearch<Vertex>();
-		returnStack.push(first, 0);	/*adiciona o primeiro elemento para iniciar a busca recursiva*/
-		return this.searchWay(second, returnStack);
+		Searching[] vertex = new Searching[this.getNumOfVertex()];
+		for(int position = 0; position < vertex.length; position += 1)
+			vertex[position] = new Searching(this.allVertex[position]);
+			
+		return this.searchWay(first, second, vertex);
+	}
+	
+	public String[] getAllData() {
+		String[] stationNames = new String[this.getNumOfVertex()];
+		
+		for(int position = 0; position < stationNames.length; position += 1) 
+			stationNames[position] = this.allVertex[position].getVertexName();
+		
+		return stationNames;
 	}
 
 	@Override

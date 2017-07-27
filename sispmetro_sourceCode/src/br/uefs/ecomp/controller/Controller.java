@@ -10,13 +10,20 @@ import br.uefs.ecomp.util.Graph;
 public class Controller {
 	
 	private static Controller controllerInstance;
+	private Graph stations;
 	
-	private Controller() {}
+	private Controller() {
+		this.stations = new Graph();
+	}
 	
 	public static Controller getInstance() {
 		if(controllerInstance == null)
 			controllerInstance = new Controller();
 		return controllerInstance;
+	}
+	
+	public void parseFile(String fileNamePath) throws FileNotFoundException {
+		this.parseFile(fileNamePath, this.stations);
 	}
 	
 	public void parseFile(String fileNamePath, Graph saveVertexEdgesGraph) throws FileNotFoundException {
@@ -37,5 +44,9 @@ public class Controller {
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
+	}
+	
+	public String[] getStationNames() {
+		return this.stations.getAllData();
 	}
 }
