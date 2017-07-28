@@ -1,5 +1,6 @@
 package br.uefs.ecomp.view;
 
+import java.awt.Image;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -37,8 +38,10 @@ public class MapGUI {
 		frame.setVisible(true);
 		
 		JLabel lblSubwaymap = new JLabel();
-		lblSubwaymap.setIcon(new ImageIcon("../SUBWAYMAP.png"));
+		ImageIcon map = new ImageIcon("../SUBWAYMAP.png");
 		lblSubwaymap.setBounds(10, 28, 454, 176);
+		lblSubwaymap.setIcon(new ImageIcon(map.getImage().getScaledInstance(lblSubwaymap.getWidth(),lblSubwaymap.getHeight(), Image.SCALE_DEFAULT)));
+		
 		frame.getContentPane().add(lblSubwaymap);
 		
 		JLabel lblStationOrigin = new JLabel("Esta\u00E7\u00E3o de Origem:");

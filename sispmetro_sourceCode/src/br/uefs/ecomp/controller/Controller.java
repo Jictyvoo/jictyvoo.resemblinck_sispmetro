@@ -38,8 +38,22 @@ public class Controller {
 				String[] edgesInformations = lineReaded.split(",\\s|,");
 				saveVertexEdgesGraph.addVertex(edgesInformations[0]);	/*adiciona os vertices no grafo*/
 				saveVertexEdgesGraph.addVertex(edgesInformations[1]);	/*adiciona os vertices no grafo*/
-
-				saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[2]));	/*adiciona a aresta no grafo*/
+				try {
+					saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[2]));	/*adiciona a aresta no grafo*/
+				} catch (NumberFormatException exception) {
+					int num = 0;
+					int decimals = 1;
+					boolean decimal = false;
+					for(int position = 0 ; position < edgesInformations[2].length(); position += 1) {
+						num /= 10;
+						if(edgesInformations[2].charAt(position) == '.')
+							decimal = true;
+						else if(edgesInformations[2].charAt(position) != ' ' && edgesInformations[2].charAt(position) != ',') {
+							num += Integer.parseInt("" + edgesInformations[2].charAt(position)) / (decimal ? 10 * decimals++ : 1);
+						}
+					}
+					saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], num);
+				}
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
