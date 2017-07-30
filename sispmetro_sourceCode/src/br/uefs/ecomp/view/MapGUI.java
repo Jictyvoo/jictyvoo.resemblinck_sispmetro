@@ -37,33 +37,36 @@ public class MapGUI {
 		frame.getContentPane().setLayout(null);
 		frame.setVisible(true);
 		
+		frame.setBounds(100, 100, 890, 650);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		
 		JLabel lblSubwaymap = new JLabel();
-		ImageIcon map = new ImageIcon("../SUBWAYMAP.png");
-		lblSubwaymap.setBounds(10, 28, 454, 176);
+		ImageIcon map = new ImageIcon("../SubwayMap/subwayMapSimplified.png");
+		lblSubwaymap.setBounds(10, 36, 854, 397);
 		lblSubwaymap.setIcon(new ImageIcon(map.getImage().getScaledInstance(lblSubwaymap.getWidth(),lblSubwaymap.getHeight(), Image.SCALE_DEFAULT)));
 		
 		frame.getContentPane().add(lblSubwaymap);
 		
 		JLabel lblStationOrigin = new JLabel("Esta\u00E7\u00E3o de Origem:");
-		lblStationOrigin.setBounds(70, 231, 121, 14);
+		lblStationOrigin.setBounds(259, 491, 121, 14);
 		frame.getContentPane().add(lblStationOrigin);
 		
 		JComboBox<String> originStation = new JComboBox<String>();
 		originStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
-		originStation.setBounds(26, 256, 190, 20);
+		originStation.setBounds(215, 516, /*190*/(frame.getWidth()/490)*190, 20);
 		frame.getContentPane().add(originStation);
 		
 		JLabel lblStationDestiny = new JLabel("Esta\u00E7\u00E3o de Destino:");
-		lblStationDestiny.setBounds(286, 231, 121, 14);
+		lblStationDestiny.setBounds(475, 491, 121, 14);
 		frame.getContentPane().add(lblStationDestiny);
 		
 		JComboBox<String> destinyStation = new JComboBox<String>();
 		destinyStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
-		destinyStation.setBounds(246, 256, 190, 20);
+		destinyStation.setBounds(435, 516, 190, 20);
 		frame.getContentPane().add(destinyStation);
 		
 		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");
-		btnSearchMinorWay.setBounds(36, 287, 129, 23);
+		btnSearchMinorWay.setBounds(225, 547, 129, 23);
 		btnSearchMinorWay.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
 				/*here came the event to search the minor way and draw in the screen*/
@@ -72,22 +75,20 @@ public class MapGUI {
 		frame.getContentPane().add(btnSearchMinorWay);
 		
 		JLabel lblTempoDeEspera = new JLabel("Tempo de Espera da Esta\u00E7\u00E3o:");
-		lblTempoDeEspera.setBounds(186, 291, 171, 14);
+		lblTempoDeEspera.setBounds(375, 551, 171, 14);
 		frame.getContentPane().add(lblTempoDeEspera);
 		
 		txtWaitTimeInput = new JTextField();
-		txtWaitTimeInput.setBounds(367, 288, 28, 20);
+		txtWaitTimeInput.setBounds(556, 548, 28, 20);
 		frame.getContentPane().add(txtWaitTimeInput);
 		txtWaitTimeInput.setColumns(10);
 		
 		JLabel lblminutos = new JLabel("(minutos)");
-		lblminutos.setBounds(401, 291, 63, 14);
+		lblminutos.setBounds(590, 551, 63, 14);
 		frame.getContentPane().add(lblminutos);
 		
 		JLabel lblTotalTravelTime = new JLabel("Total Travel Time: ");
-		lblTotalTravelTime.setBounds(324, 11, 140, 14);
+		lblTotalTravelTime.setBounds(679, 11, 140, 14);
 		frame.getContentPane().add(lblTotalTravelTime);
-		frame.setBounds(100, 100, 490, 360);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 	}
 }

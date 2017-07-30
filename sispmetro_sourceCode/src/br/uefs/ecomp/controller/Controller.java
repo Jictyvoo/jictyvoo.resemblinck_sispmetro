@@ -4,6 +4,7 @@ import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import br.uefs.ecomp.util.Graph;
 
@@ -48,7 +49,7 @@ public class Controller {
 						num /= 10;
 						if(edgesInformations[2].charAt(position) == '.')
 							decimal = true;
-						else if(edgesInformations[2].charAt(position) != ' ' && edgesInformations[2].charAt(position) != ',') {
+						else if(edgesInformations[2].charAt(position) >= '0' && edgesInformations[2].charAt(position) <= '9') {
 							num += Integer.parseInt("" + edgesInformations[2].charAt(position)) / (decimal ? 10 * decimals++ : 1);
 						}
 					}
@@ -61,6 +62,8 @@ public class Controller {
 	}
 	
 	public String[] getStationNames() {
-		return this.stations.getAllData();
+		String[] nameStations = this.stations.getAllData();
+		Arrays.sort(nameStations);
+		return nameStations;
 	}
 }

@@ -1,6 +1,6 @@
 package br.uefs.ecomp.util;
 
-public class Edge {
+class Edge {
 	private Vertex vertex;
 	private int cost;
 	

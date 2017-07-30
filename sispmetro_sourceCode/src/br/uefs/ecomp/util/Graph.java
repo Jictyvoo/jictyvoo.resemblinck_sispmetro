@@ -110,7 +110,7 @@ public class Graph {
 		private Vertex vertex;
 		private boolean visited;
 		private int sizeOfWay;
-		private IQueue<Vertex> way;
+		private Stack<Vertex> way;
 		
 		Searching(Vertex vertexReceived) {
 			this.vertex = vertexReceived;
@@ -121,6 +121,10 @@ public class Graph {
 		
 		boolean asVisited() {
 			return this.visited;
+		}
+		
+		void setVisited(boolean alreadyVisited) {
+			this.visited = alreadyVisited;
 		}
 		
 		Vertex getVertex() {
@@ -135,32 +139,98 @@ public class Graph {
 			this.sizeOfWay = newSize;
 		}
 		
-		IQueue<Vertex> getWay() {
+		Stack<Vertex> getWay() {
 			return this.way;
 		}
 		
-		void setWay(IQueue<Vertex> newWay) {
+		void setWay(Stack<Vertex> newWay) {
 			this.way = newWay;
 		}
 		
 	}
-
-	private IQueue<Vertex> searchWay(Vertex first, Vertex destiny, Searching[] searching) {	/*Dijkstra*/
-		Vertex origin = first;
-		/*begins the loop, and only stops if reached the destiny and the way as the minor of all*/
-		return null;
+	
+	private boolean allVertexVisited(Searching[] searching) {
+		for(Searching visited : searching) {
+			if(!visited.asVisited())
+				return true;
+		}
+		return false;
+	}
+	
+	private Searching nextVertex(Searching[] searching) {
+		Searching returnNext = null;
+		for(Searching find : searching) {
+			if(!find.asVisited() && (returnNext != null ? returnNext.getSizeOfWay() > find.getSizeOfWay() : true))
+				returnNext = find;
+		}
+		return returnNext;
 	}
 
-	public IQueue<Vertex> minorWay(String origin, String destiny) {
+	private boolean visitedVertex(Searching[] searching, Vertex vertex) {
+		for(Searching find : searching) {
+			if(find.getVertex().equals(vertex))
+				return find.asVisited();
+		}
+		return false;
+	}
+	
+	private Searching getSearchingVertex(Vertex find, Searching[] searching) {
+		for(Searching found : searching) {
+			if(found.getVertex().equals(find))
+				return found;
+		}
+		return null;
+	}
+	
+	private Stack<Vertex> searchWay(Vertex first, Vertex destiny, Searching[] searching) {	/*Dijkstra*/
+		Searching findWay = null;
+		/*begins the loop, and only stops if reached the destiny and the way as the minor of all*/
+		while(this.allVertexVisited(searching)) {
+			if(findWay != null)
+				findWay = this.nextVertex(searching);
+			if(findWay == null) {
+				findWay = this.getSearchingVertex(first, searching);
+				findWay.setSizeOfWay(0);
+				findWay.setWay(new Stack<Vertex>());
+			}
+			
+			Edge[] edges = findWay.getVertex().getEdges();
+			Stack<Vertex> inWay = findWay.getWay();
+			
+			for(int position = 0; position < findWay.getVertex().vertexDegree(); position += 1) {
+				if(!this.visitedVertex(searching, edges[position].getVertex())) {
+					Searching newWay = this.getSearchingVertex(edges[position].getVertex(), searching);
+					int newWaySize = (findWay.getSizeOfWay() + edges[position].getCost());
+					if(newWaySize < newWay.getSizeOfWay()) {
+						Stack<Vertex> cloneWay = inWay.copy();
+						cloneWay.push(findWay.getVertex());
+						newWay.setWay(cloneWay);
+						newWay.setSizeOfWay(newWaySize);
+					}
+				}
+			}
+			findWay.setVisited(true);
+		}
+		Stack<Vertex> returnWay = this.getSearchingVertex(destiny, searching).getWay();
+		returnWay.push(destiny);
+		return returnWay;
+	}
+
+	public IStack<String> minorWay(String origin, String destiny) {
 		Vertex first = this.foundVertex(origin);
 		Vertex second = this.foundVertex(destiny);
 		if(first == null || second == null)
 			return null;
+		
 		Searching[] vertex = new Searching[this.getNumOfVertex()];
 		for(int position = 0; position < vertex.length; position += 1)
 			vertex[position] = new Searching(this.allVertex[position]);
-			
-		return this.searchWay(first, second, vertex);
+		
+		IStack<Vertex> minorWatFound = this.searchWay(first, second, vertex);
+		IStack<String> returnWay = new Stack<String>();
+		while(!minorWatFound.isEmpty())
+			returnWay.push(minorWatFound.pop().getVertexName());
+		return returnWay;
 	}
 	
 	public String[] getAllData() {

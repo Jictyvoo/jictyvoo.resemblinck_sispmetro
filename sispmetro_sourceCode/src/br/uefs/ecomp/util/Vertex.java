@@ -4,7 +4,7 @@ package br.uefs.ecomp.util;
  *
  * @author João Victor Oliveira Couto
  */
-public class Vertex {
+class Vertex {
 	private Edge[] edges;	/*Arestas do grafo*/
 	private final String vertexName;	/*nome dos vertices do grafo*/
 	private int next;
