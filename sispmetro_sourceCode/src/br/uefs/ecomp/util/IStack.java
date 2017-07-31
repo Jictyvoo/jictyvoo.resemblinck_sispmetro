@@ -13,4 +13,3 @@ public interface IStack <TypeReceived> {
 	
 	public TypeReceived peek();
 }
-

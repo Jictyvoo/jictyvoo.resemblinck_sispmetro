@@ -13,6 +13,7 @@ import javax.swing.JLabel;
 import javax.swing.JTextField;
 
 import br.uefs.ecomp.controller.Controller;
+import br.uefs.ecomp.util.IStack;
 
 public class MapGUI {
 
@@ -41,9 +42,8 @@ public class MapGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		
 		JLabel lblSubwaymap = new JLabel();
-		ImageIcon map = new ImageIcon("../SubwayMap/subwayMapSimplified.png");
 		lblSubwaymap.setBounds(10, 36, 854, 397);
-		lblSubwaymap.setIcon(new ImageIcon(map.getImage().getScaledInstance(lblSubwaymap.getWidth(),lblSubwaymap.getHeight(), Image.SCALE_DEFAULT)));
+		lblSubwaymap.setIcon(new ImageIcon(Controller.getInstance().getMap().getImage().getScaledInstance(lblSubwaymap.getWidth(),lblSubwaymap.getHeight(), Image.SCALE_DEFAULT)));
 		
 		frame.getContentPane().add(lblSubwaymap);
 		
@@ -68,8 +68,15 @@ public class MapGUI {
 		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");
 		btnSearchMinorWay.setBounds(225, 547, 129, 23);
 		btnSearchMinorWay.addActionListener(new ActionListener() {
-			public void actionPerformed(ActionEvent e) {
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
 				/*here came the event to search the minor way and draw in the screen*/
+				int originSelected = originStation.getSelectedIndex();
+				int destinySelected = destinyStation.getSelectedIndex();
+				IStack<String> wayFound = Controller.getInstance().wayBetween(Controller.getInstance().getStationNames()[originSelected], Controller.getInstance().getStationNames()[destinySelected]);
+				while(!wayFound.isEmpty())
+					System.out.println(wayFound.pop());	/*Only for test*/
 			}
 		});
 		frame.getContentPane().add(btnSearchMinorWay);
@@ -90,5 +97,6 @@ public class MapGUI {
 		JLabel lblTotalTravelTime = new JLabel("Total Travel Time: ");
 		lblTotalTravelTime.setBounds(679, 11, 140, 14);
 		frame.getContentPane().add(lblTotalTravelTime);
+		
 	}
 }

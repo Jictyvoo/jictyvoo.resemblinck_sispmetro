@@ -15,6 +15,8 @@ public class Program {
 			Controller.getInstance().parseFile("../subwayStations.txt");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
+		} finally {
+			Controller.getInstance().openMap();
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

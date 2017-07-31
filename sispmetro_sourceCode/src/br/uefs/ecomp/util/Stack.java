@@ -58,7 +58,9 @@ public class Stack<TypeReceived> implements IStack<TypeReceived>{
 
 	@Override
 	public TypeReceived peek() {
-		return this.first.information;
+		if(this.first != null)
+			return this.first.information;
+		return null;
 	}
 	
 	public Stack<TypeReceived> copy(){

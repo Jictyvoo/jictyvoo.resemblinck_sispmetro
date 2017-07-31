@@ -182,7 +182,7 @@ public class Graph {
 		return null;
 	}
 	
-	private Stack<Vertex> searchWay(Vertex first, Vertex destiny, Searching[] searching) {	/*Dijkstra*/
+	private Stack<Vertex> searchWay(Vertex first, Vertex destiny, Searching[] searching) {	/*Djkstra*/
 		Searching findWay = null;
 		/*begins the loop, and only stops if reached the destiny and the way as the minor of all*/
 		while(this.allVertexVisited(searching)) {
@@ -202,17 +202,20 @@ public class Graph {
 					Searching newWay = this.getSearchingVertex(edges[position].getVertex(), searching);
 					int newWaySize = (findWay.getSizeOfWay() + edges[position].getCost());
 					if(newWaySize < newWay.getSizeOfWay()) {
-						Stack<Vertex> cloneWay = inWay.copy();
-						cloneWay.push(findWay.getVertex());
+						Stack<Vertex> cloneWay = null;
+						if(inWay != null) {
+							cloneWay = inWay.copy();
+							cloneWay.push(findWay.getVertex());
+							newWay.setSizeOfWay(newWaySize);
+						}
 						newWay.setWay(cloneWay);
-						newWay.setSizeOfWay(newWaySize);
 					}
 				}
 			}
 			findWay.setVisited(true);
 		}
 		Stack<Vertex> returnWay = this.getSearchingVertex(destiny, searching).getWay();
-		returnWay.push(destiny);
+		if(returnWay != null) {returnWay.push(destiny);}
 		return returnWay;
 	}
 
@@ -228,9 +231,65 @@ public class Graph {
 		
 		IStack<Vertex> minorWatFound = this.searchWay(first, second, vertex);
 		IStack<String> returnWay = new Stack<String>();
-		while(!minorWatFound.isEmpty())
-			returnWay.push(minorWatFound.pop().getVertexName());
+		if(minorWatFound != null) {
+			while(!minorWatFound.isEmpty())
+				returnWay.push(minorWatFound.pop().getVertexName());
+		}
 		return returnWay;
+	}
+	
+	public Iterator<Vertex> vertexIterator(){
+		return new Iterator<Vertex>() {	/*Classe Anonima de um Iterador*/
+			
+			private int positionIterator;
+			
+			{
+				this.positionIterator = 0;
+			}
+
+			@Override
+			public boolean hasNext() {
+				return this.positionIterator < next;
+			}
+
+			@Override
+			public Vertex next() {
+				Vertex returnVertex = allVertex[this.positionIterator];
+				this.positionIterator += 1;
+				return returnVertex;
+			}
+			
+		};
+	}
+	
+	public Iterator<Integer> edgeIterator(){
+		return new Iterator<Integer>() {	/*Classe Anonima de um Iterador*/
+			
+			private int positionIterator;
+			private int positionEdge;
+			
+			{
+				this.positionIterator = 0;
+				this.positionEdge = 0;
+			}
+
+			@Override
+			public boolean hasNext() {
+				return this.positionIterator < next ? allVertex[this.positionIterator].vertexDegree() > this.positionEdge : false;
+			}
+
+			@Override
+			public Integer next() {
+				Integer returnEdgeWeight = allVertex[this.positionIterator].getEdges()[this.positionEdge].getCost();
+				this.positionEdge += 1;
+				if(this.positionEdge >= allVertex[this.positionIterator].vertexDegree()) {
+					this.positionIterator += 1;
+					this.positionEdge = 0;
+				}
+				return returnEdgeWeight;
+			}
+			
+		};
 	}
 	
 	public String[] getAllData() {

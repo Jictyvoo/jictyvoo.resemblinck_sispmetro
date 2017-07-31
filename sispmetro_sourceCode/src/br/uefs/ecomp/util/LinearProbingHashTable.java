@@ -8,16 +8,16 @@ public class LinearProbingHashTable<KeyType, InformationType> implements IHashTa
 	private Entry<KeyType, InformationType>[] entries;
 	private int sizeVar;
 	
+	@SuppressWarnings("unchecked")
+	public LinearProbingHashTable(int size) {
+		entries = (Entry<KeyType, InformationType>[]) new Object[size - 1];	/*ERROR*/
+	}
+	
 	public LinearProbingHashTable() {
 		this(31);
 	}
 	
-	@SuppressWarnings("unchecked")
-	public LinearProbingHashTable(int size) {
-		entries = (Entry<KeyType, InformationType>[]) new Object[size - 1];
-	}
-	
-	private int hashFunction(Entry<KeyType, InformationType>[] entrySet, KeyType key) {
+	private int hashFunction(Entry<KeyType, InformationType>[] entrySet, KeyType key) {	/*Wrong*/
 		return Math.abs(key.hashCode() % entrySet.length);
 	}
 	
@@ -27,10 +27,10 @@ public class LinearProbingHashTable<KeyType, InformationType> implements IHashTa
 	
 	@SuppressWarnings("unchecked")
 	private void resize() {
-		Entry<KeyType, InformationType>[] temp = entries;
-		entries = (Entry<KeyType, InformationType>[]) new Object[entries.length * 2];
+		Entry<KeyType, InformationType>[] temp = this.entries;
+		this.entries = (Entry<KeyType, InformationType>[]) new Object[entries.length * 2];
 		for (Entry<KeyType, InformationType> e : temp) {
-			if (e != null && !e.equals(EMPTY)) {
+			if (e != null ? !e.equals(EMPTY) : false) {
 				put(e.getKey(), e.getValue());
 			}
 		}
@@ -89,8 +89,7 @@ public class LinearProbingHashTable<KeyType, InformationType> implements IHashTa
 
 	@Override
 	public boolean isEmpty() {
-		// TODO Auto-generated method stub
-		return false;
+		return this.sizeVar == 0;
 	}
 
 	@Override

@@ -1,20 +1,32 @@
 package br.uefs.ecomp.controller;
 
+import java.awt.Point;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
 
+import javax.swing.ImageIcon;
+
 import br.uefs.ecomp.util.Graph;
+import br.uefs.ecomp.util.IStack;
+import br.uefs.ecomp.util.LinearProbingHashTable;
 
 public class Controller {
 	
 	private static Controller controllerInstance;
 	private Graph stations;
+	private String[] stationsNames;
+	
+	private ImageIcon map;
+	private LinearProbingHashTable<String, Point> points;
 	
 	private Controller() {
 		this.stations = new Graph();
+		this.stationsNames = null;
+		//this.points = new LinearProbingHashTable<String, Point>();
+		this.map = null;
 	}
 	
 	public static Controller getInstance() {
@@ -25,6 +37,7 @@ public class Controller {
 	
 	public void parseFile(String fileNamePath) throws FileNotFoundException {
 		this.parseFile(fileNamePath, this.stations);
+		this.stationsNames = this.saveStationNames();
 	}
 	
 	public void parseFile(String fileNamePath, Graph saveVertexEdgesGraph) throws FileNotFoundException {
@@ -61,9 +74,30 @@ public class Controller {
 		}
 	}
 	
+	public void openMap() {
+		this.map = new ImageIcon("../SubwayMap/subwayMapSimplified.png");
+		/*Function to read the input coordinates file*/
+	}
+	
+	public ImageIcon getMap() {
+		return this.map;
+	}
+	
+	public LinearProbingHashTable<String, Point> getPoints(){
+		return this.points;
+	}
+	
 	public String[] getStationNames() {
+		return this.stationsNames;
+	}
+	
+	private String[] saveStationNames() {
 		String[] nameStations = this.stations.getAllData();
 		Arrays.sort(nameStations);
 		return nameStations;
+	}
+	
+	public IStack<String> wayBetween(String origin, String destiny) {
+		return this.stations.minorWay(origin, destiny);
 	}
 }

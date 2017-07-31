@@ -41,7 +41,7 @@ class Vertex {
 	public boolean removeEdge(Vertex edgeThis) {
 		Edge foundEdge = null;
 		int position = 0;
-		for(position = 0; position < this.edges.length; position += 1) {
+		for(position = 0; position < this.vertexDegree(); position += 1) {
 			Edge search = this.edges[position];
 			if(search.getVertex().equals(edgeThis)) {	/*verifica se o vertice existe no conjunto de arestas*/
 				foundEdge = search;
