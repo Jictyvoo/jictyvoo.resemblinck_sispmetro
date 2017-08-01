@@ -31,8 +31,8 @@ public class GraphTest extends TestCase {
 	public void testAddVertexAndEdge() {
 		Graph littleGraph = this.generateGraph();
 
-		assertEquals(7, littleGraph.getNumOfEdges());
 		assertEquals(6, littleGraph.getNumOfVertex());
+		assertEquals(7, littleGraph.getNumOfEdges());
 	}
 	
 	@Test
@@ -109,7 +109,7 @@ public class GraphTest extends TestCase {
 	@Test
 	public void testEdgeIterator() {
 		Graph littleGraph = this.generateGraph();
-		Iterator<Integer> iterator = littleGraph.edgeIterator();
+		Iterator<Float> iterator = littleGraph.edgeIterator();
 		int count = 0;
 		while(iterator.hasNext()) {
 			iterator.next();

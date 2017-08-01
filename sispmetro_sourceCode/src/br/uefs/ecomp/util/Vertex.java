@@ -1,7 +1,7 @@
 package br.uefs.ecomp.util;
 
 /**
- *
+ * Classe vértice que armazena dados e um vetor de arestas adjacentes ao vértice
  * @author JoÃ£o Victor Oliveira Couto
  */
 class Vertex {
@@ -23,19 +23,21 @@ class Vertex {
 		this.edges = temporaryV;
 	}
 	
-	public boolean addEdge(Vertex newLigation, int ligationCost){
+	public void addEdge(Vertex newLigation, float ligationCost){
+		int newEdgePosition = this.next;
 		for(int position = 0; position < this.next; position += 1) {
 			Edge search = this.edges[position];
-			if(search.getVertex().equals(newLigation))	/*verifica se já foi adicionado aquele vértice*/
-				return false;
+			if(search.getVertex().equals(newLigation)) {	/*verifica se já foi adicionado aquele vértice*/
+				newEdgePosition = position;
+				position = this.next + 1;
+			}
 		}
 		if(this.next == this.edges.length)
 			this.expandVectors();	/*caso primeira adição, expande o vetor*/
 		
-		this.edges[this.next] = new Edge(newLigation, ligationCost);	/*adiciona a aresta*/
-		this.next += 1;
-		newLigation.addEdge(this, ligationCost);	/*adiciona a aresta no outro vertice*/
-		return true;
+		this.edges[newEdgePosition] = new Edge(newLigation, ligationCost);	/*adiciona a aresta*/
+		if(newEdgePosition == this.next)
+			this.next += 1;
 	}
 	
 	public boolean removeEdge(Vertex edgeThis) {
@@ -54,14 +56,14 @@ class Vertex {
 		this.edges[position] = this.edges[this.next - 1];
 		this.next -= 1;
 		
-		edgeThis.removeEdge(this);
-		
 		return true;
 	}
 	
 	public void removeAllEdges() {
-		while(this.next > 0)
+		while(this.next > 0) {
+			this.edges[0].getVertex().removeEdge(this);
 			this.removeEdge(this.edges[0].getVertex());
+		}
 	}
 	
 	public int vertexDegree(){
