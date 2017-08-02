@@ -140,6 +140,19 @@ public class Graph {
 		return returnBoolean;
 	}
 	
+	/**
+	 * Método que retorna o peso de uma aresta entre dois vértices
+	 * @param firstVertex	Vértice de Origem
+	 * @param secondVertex	Vértice de Destino
+	 * @return	Peso da Aresta
+	 */
+	public float getEdge(String firstVertex, String secondVertex){
+		Vertex first = this.foundVertex(firstVertex);
+		Vertex second = this.foundVertex(secondVertex);
+		if(first == null || second == null)
+			return 0f;
+		return first.getEdge(second);
+	}
 	 /**
 	  * Método que retorna o número de vértices que existem no Grafo
 	  * @return	O número de vértices existentes no Grafo

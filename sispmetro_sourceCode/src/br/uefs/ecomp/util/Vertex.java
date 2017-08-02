@@ -66,6 +66,15 @@ class Vertex {
 		}
 	}
 	
+	public float getEdge(Vertex destiny) {
+		for(int position = 0; position < this.vertexDegree(); position += 1) {
+			if(this.edges[position].getVertex().equals(destiny)) {
+				return this.edges[position].getWeight();
+			}
+		}
+		return -1f;
+	}
+	
 	public int vertexDegree(){
 		return this.next;
 	}

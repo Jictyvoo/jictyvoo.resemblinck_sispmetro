@@ -55,15 +55,16 @@ public class Controller {
 				try {
 					saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[2]));	/*adiciona a aresta no grafo*/
 				} catch (NumberFormatException exception) {
-					int num = 0;
+					float num = 0;
 					int decimals = 1;
 					boolean decimal = false;
 					for(int position = 0 ; position < edgesInformations[2].length(); position += 1) {
-						num /= 10;
 						if(edgesInformations[2].charAt(position) == '.')
 							decimal = true;
 						else if(edgesInformations[2].charAt(position) >= '0' && edgesInformations[2].charAt(position) <= '9') {
-							num += Integer.parseInt("" + edgesInformations[2].charAt(position)) / (decimal ? 10 * decimals++ : 1);
+							if(!decimal)
+								num *= 10;
+							num += Integer.parseInt("" + edgesInformations[2].charAt(position)) / (decimal ? Math.pow(10, decimals++) : 1);
 						}
 					}
 					saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], num);
@@ -99,5 +100,18 @@ public class Controller {
 	
 	public IStack<String> wayBetween(String origin, String destiny) {
 		return this.stations.minorWay(origin, destiny);
+	}
+	
+	public float totalTime(IStack<String> wayFound, float waitingTime) {
+		int stops = wayFound.size();
+		String station = wayFound.pop();
+		float timeFound = 0f;
+		while(!wayFound.isEmpty()) {
+			String temporary = station;
+			station = wayFound.pop();
+			timeFound += this.stations.getEdge(temporary, station);
+		}
+		timeFound = (waitingTime * (stops - 2)) + timeFound;
+		return timeFound;
 	}
 }
