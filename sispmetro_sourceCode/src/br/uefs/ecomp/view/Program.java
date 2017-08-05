@@ -12,7 +12,7 @@ public class Program {
 	 */
 	public static void main(String[] args) {
 		try {
-			Controller.getInstance().parseFile("../subwayStations.txt");
+			Controller.getInstance().parseFile("../initialize/subwayStations.txt");
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} finally {

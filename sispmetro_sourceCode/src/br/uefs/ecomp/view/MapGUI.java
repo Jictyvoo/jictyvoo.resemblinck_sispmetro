@@ -8,6 +8,9 @@ import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.JPanel;
+import javax.swing.JPopupMenu;
 import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 
@@ -23,7 +26,7 @@ public class MapGUI {
 	/**
 	 * Create the application.
 	 */
-	public MapGUI() {
+	public MapGUI() {	/*construtor padrão que vai iniciar todos os componentes*/
 		initialize();
 	}
 	public JFrame getFrame() {
@@ -34,96 +37,126 @@ public class MapGUI {
 	 * Initialize the contents of the frame.
 	 */
 	private void initialize() {
-		frame = new JFrame();
-		frame.getContentPane().setLayout(null);
-		frame.setVisible(true);
+		frame = new JFrame();	/*inicializa o frame principal*/
+		frame.getContentPane().setLayout(null);	/*define o layout como nulo para manipulação livre da posição dos componentes*/
+		frame.setVisible(true);	/*seta a visibilidade como verdadeiro para exibir*/
 		
-		frame.setBounds(100, 100, 890, 650);
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setBounds(100, 100, 890, 650);	/*define o tamanho da tela*/
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);	/*define operação de fechamento de tela*/
 		
-		JLabel lblStationOrigin = new JLabel("Esta\u00E7\u00E3o de Origem:");
-		lblStationOrigin.setBounds(54, 495, 121, 14);
-		frame.getContentPane().add(lblStationOrigin);
+		JLabel lblStationOrigin = new JLabel("Esta\u00E7\u00E3o de Origem:");	/*label com o texto Estação de Origem*/
+		lblStationOrigin.setBounds(54, 495, 121, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblStationOrigin);	/*adiciona o componente na tela*/
 		
-		JComboBox<String> originStation = new JComboBox<String>();
-		originStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
-		originStation.setBounds(10, 520, /*190*/(frame.getWidth()/490)*190, 20);
-		frame.getContentPane().add(originStation);
+		JComboBox<String> originStation = new JComboBox<String>();	/*cria um JComboBox para seleção das estações*/
+		originStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));	/*inclui os nomes das estações no JComboBox*/
+		originStation.setBounds(10, 520, 190, 20);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(originStation);	/*adiciona o componente na tela*/
 		
-		JLabel lblStationDestiny = new JLabel("Esta\u00E7\u00E3o de Destino:");
-		lblStationDestiny.setBounds(270, 495, 121, 14);
-		frame.getContentPane().add(lblStationDestiny);
+		JLabel lblStationDestiny = new JLabel("Esta\u00E7\u00E3o de Destino:");	/*label com o texto Estação de Destino*/
+		lblStationDestiny.setBounds(270, 495, 121, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblStationDestiny);	/*adiciona o componente na tela*/
 		
-		JComboBox<String> destinyStation = new JComboBox<String>();
-		destinyStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
-		destinyStation.setBounds(230, 520, 190, 20);
-		frame.getContentPane().add(destinyStation);
+		JComboBox<String> destinyStation = new JComboBox<String>();	/*cria um JComboBox para seleção das estações*/
+		destinyStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));	/*inclui os nomes das estações no JComboBox*/
+		destinyStation.setBounds(230, 520, 190, 20);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(destinyStation);	/*adiciona o componente na tela*/
 		
-		JLabel lblTempoDeEspera = new JLabel("Tempo de Espera da Esta\u00E7\u00E3o:");
-		lblTempoDeEspera.setBounds(170, 555, 171, 14);
-		frame.getContentPane().add(lblTempoDeEspera);
+		JLabel lblTempoDeEspera = new JLabel("Tempo de Espera da Esta\u00E7\u00E3o:");	/*label com o texto Tempo de Espera da Estação*/
+		lblTempoDeEspera.setBounds(170, 555, 171, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblTempoDeEspera);	/*adiciona o componente na tela*/
 		
-		txtWaitTimeInput = new JTextField();
-		txtWaitTimeInput.setBounds(351, 552, 28, 20);
-		frame.getContentPane().add(txtWaitTimeInput);
-		txtWaitTimeInput.setColumns(10);
+		txtWaitTimeInput = new JTextField();	/*cria um componente para entrada de textos*/
+		txtWaitTimeInput.setBounds(351, 552, 28, 20);	/*define o tamanho e posição do componente*/
+		txtWaitTimeInput.setColumns(10);	/*define a largura do textField*/
+		frame.getContentPane().add(txtWaitTimeInput);	/*adiciona o componente na tela*/
 		
-		JLabel lblminutos = new JLabel("(minutos)");
-		lblminutos.setBounds(385, 555, 63, 14);
-		frame.getContentPane().add(lblminutos);
+		JLabel lblminutos = new JLabel("(minutos)");	/*label com o texto (minutos)*/
+		lblminutos.setBounds(385, 555, 63, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblminutos);	/*adiciona o componente na tela*/
 		
-		JLabel lblTotalTravelTime = new JLabel("Total Travel Time: ");
-		lblTotalTravelTime.setBounds(630, 11, 200, 14);
-		frame.getContentPane().add(lblTotalTravelTime);
+		JLabel lblTotalTravelTime = new JLabel("Total Travel Time: ");	/*label que contém o tempo de viagem*/
+		lblTotalTravelTime.setBounds(630, 11, 200, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblTotalTravelTime);	/*adiciona o componente na tela*/
 		
-		JLabel lblEstacoesNoCaminho = new JLabel("Esta\u00E7\u00F5es no Caminho:");
-		lblEstacoesNoCaminho.setBounds(629, 495, 129, 14);
-		frame.getContentPane().add(lblEstacoesNoCaminho);
+		JLabel lblEstacoesNoCaminho = new JLabel("Esta\u00E7\u00F5es no Caminho:");	/*label com o texto Estações no Caminho:*/
+		lblEstacoesNoCaminho.setBounds(629, 495, 129, 14);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(lblEstacoesNoCaminho);	/*adiciona o componente na tela*/
 		
-		JScrollPane scrollPane = new JScrollPane();
-		scrollPane.setBounds(519, 520, 345, 80);
-		frame.getContentPane().add(scrollPane);
+		JPanel jPanelRoute = new JPanel();	/*panel que armazenará as estações pelas quais a rota passa*/
+		jPanelRoute.setBounds(519, 520, 345, 80);	/*define o tamanho e posição do componente*/
 		
-		JLabel wirteWay = new JLabel();
-		scrollPane.setViewportView(wirteWay);
+		JScrollPane scrollPane = new JScrollPane(jPanelRoute);	/*scroll panel para por as estações da rota*/
+		scrollPane.setBounds(519, 520, 345, 80);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(scrollPane);	/*adiciona o componente na tela*/
 		
-		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");
-		btnSearchMinorWay.setBounds(20, 551, 129, 23);
-		btnSearchMinorWay.addActionListener(new ActionListener() {
+		/*JLabel wirteWay = new JLabel();
+		scrollPane.setViewportView(wirteWay);*/
+		
+		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");	/*botão para definir o evento de traçar rota e definir tempo de viagem*/
+		btnSearchMinorWay.setBounds(20, 551, 129, 23);	/*define o tamanho e posição do componente*/
+		btnSearchMinorWay.addActionListener(new ActionListener() {	/*adiciona a ação que será executada*/
 			
 			@Override
 			public void actionPerformed(ActionEvent event) {
 				/*here came the event to search the minor way and draw in the screen*/
-				int originSelected = originStation.getSelectedIndex();
-				int destinySelected = destinyStation.getSelectedIndex();
-				IStack<String> wayFound = Controller.getInstance().wayBetween(Controller.getInstance().getStationNames()[originSelected], Controller.getInstance().getStationNames()[destinySelected]);
+				IStack<String> wayFound = Controller.getInstance().wayBetween((String) originStation.getSelectedItem(), (String) destinyStation.getSelectedItem());
 				try {
 					float timeOfWay = Controller.getInstance().totalTime(((Stack<String>) wayFound).copy(), Float.parseFloat(txtWaitTimeInput.getText()));
 					lblTotalTravelTime.setText("Total Travel Time: " + timeOfWay + " minutes");
 				
-					String print = "";
-					while(!wayFound.isEmpty())
-						print += wayFound.pop() + "\n";	/*Organize the text*/
-					wirteWay.setText(print);
+					int initialPosition = 10;
+					jPanelRoute.removeAll();
+					while(!wayFound.isEmpty()) {
+						JLabel additting = new JLabel(wayFound.pop());
+						additting.setBounds(10, initialPosition, 300, 20);
+						jPanelRoute.add(additting);
+						initialPosition += 20;
+					}
 				}
 				catch (NumberFormatException exception) {
-					wirteWay.setText("Insira um valor para tempo de espera!");
+					JOptionPane.showMessageDialog(new JPopupMenu(),"Insira um valor para tempo de espera!","ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
 					lblTotalTravelTime.setText("Total Travel Time: ");
 					txtWaitTimeInput.setText("");
 				}
 			}
 		});
 		
-		frame.getContentPane().add(btnSearchMinorWay);
+		frame.getContentPane().add(btnSearchMinorWay);	/*adiciona o componente na tela*/
 		
-		JScrollPane scrollPaneMap = new JScrollPane();
-		scrollPaneMap.setBounds(10, 32, 854, 452);
-		frame.getContentPane().add(scrollPaneMap);
+		JScrollPane scrollPaneMap = new JScrollPane();	/*define um scroll pane para por o mapa*/
+		scrollPaneMap.setBounds(10, 32, 854, 452);	/*define o tamanho e posição do componente*/
+		frame.getContentPane().add(scrollPaneMap);	/*adiciona o componente na tela*/
 		
-		JLabel lblSubwaymap = new JLabel();
-		scrollPaneMap.setViewportView(lblSubwaymap);
-		lblSubwaymap.setIcon(Controller.getInstance().getMap());
+		JLabel lblSubwaymap = new JLabel();	/*label que será usada como sendo a imagem do mapa*/
+		lblSubwaymap.setIcon(Controller.getInstance().getMap());	/*seta a imagem do mapa com a carregada anteriormente pelo Controller*/
+		scrollPaneMap.setViewportView(lblSubwaymap);	/*adiciona a label do mapa no scroll pane*/
 		//lblSubwaymap.setIcon(new ImageIcon(Controller.getInstance().getMap().getImage().getScaledInstance(scrollPane.getWidth(),scrollPane.getHeight(), Image.SCALE_DEFAULT)));
+		
+		originStation.removeItemAt(1);	/*remove o item selecionado no segundo JComboBox*/
+		destinyStation.removeItemAt(0);	/*remove o item selecionado no primeiro JComboBox*/
+		
+		destinyStation.addActionListener(new ActionListener() {	/*ação de mudança do conteudo da JComboBox*/
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				Object selectedOther = originStation.getSelectedItem();
+				originStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
+				originStation.removeItem(destinyStation.getSelectedItem());
+				originStation.setSelectedItem(selectedOther);
+			}
+			});
+		
+		originStation.addActionListener(new ActionListener() {	/*ação de mudança do conteudo da JComboBox*/
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				Object selectedOther = destinyStation.getSelectedItem();
+				destinyStation.setModel(new DefaultComboBoxModel<String>(Controller.getInstance().getStationNames()));
+				destinyStation.removeItem(originStation.getSelectedItem());
+				destinyStation.setSelectedItem(selectedOther);
+			}
+			});
 		
 	}
 }

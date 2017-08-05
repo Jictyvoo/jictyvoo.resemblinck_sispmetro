@@ -6,6 +6,8 @@ public interface IHashTable <KeyType, InformationType> {
 	
 	public InformationType get(KeyType key);
 	
+	public KeyType[] keySet();
+	
 	public void removeKey(KeyType key);
 	
 	public void removeValue(InformationType value);

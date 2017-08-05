@@ -6,12 +6,12 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.Arrays;
+import java.util.Hashtable;
 
 import javax.swing.ImageIcon;
 
 import br.uefs.ecomp.util.Graph;
 import br.uefs.ecomp.util.IStack;
-import br.uefs.ecomp.util.LinearProbingHashTable;
 
 public class Controller {
 	
@@ -20,16 +20,17 @@ public class Controller {
 	private String[] stationsNames;
 	
 	private ImageIcon map;
-	private LinearProbingHashTable<String, Point> points;
+	private Hashtable<String, Point> points;
 	
-	private Controller() {
+	private Controller() {	/*construtor privado do Controller para Singletone*/
 		this.stations = new Graph();
 		this.stationsNames = null;
 		//this.points = new LinearProbingHashTable<String, Point>();
+		this.points = new Hashtable<String, Point>();
 		this.map = null;
 	}
 	
-	public static Controller getInstance() {
+	public static Controller getInstance() {	/*Método estático para adquirir o objeto Singletone*/
 		if(controllerInstance == null)
 			controllerInstance = new Controller();
 		return controllerInstance;
@@ -37,7 +38,7 @@ public class Controller {
 	
 	public void parseFile(String fileNamePath) throws FileNotFoundException {
 		this.parseFile(fileNamePath, this.stations);
-		this.stationsNames = this.saveStationNames();
+		this.stationsNames = this.saveStationNames();	/*salva o nome do arquivo na primeira vez para não pesquisar os nomes novamente*/
 	}
 	
 	public void parseFile(String fileNamePath, Graph saveVertexEdgesGraph) throws FileNotFoundException {
@@ -54,7 +55,7 @@ public class Controller {
 				saveVertexEdgesGraph.addVertex(edgesInformations[1]);	/*adiciona os vertices no grafo*/
 				try {
 					saveVertexEdgesGraph.addEdge(edgesInformations[0], edgesInformations[1], Integer.parseInt(edgesInformations[2]));	/*adiciona a aresta no grafo*/
-				} catch (NumberFormatException exception) {
+				} catch (NumberFormatException exception) {	/*caso capture a exceção, converte a string para float manualmente*/
 					float num = 0;
 					int decimals = 1;
 					boolean decimal = false;
@@ -75,34 +76,51 @@ public class Controller {
 		}
 	}
 	
-	public void openMap() {
-		this.map = new ImageIcon("../SubwayMap/subwayMapSimplified.png");
+	public void openMap() {	/*método para carregamento da imagem do mapa, e dados das coordenadas*/
+		this.map = new ImageIcon("../initialize/subwayMapSimplified.png");
 		/*Function to read the input coordinates file*/
+		FileReader openingFile = null;
+		try {
+			openingFile = new FileReader("../initialize/stationsCoordinates.csv");
+		} catch (FileNotFoundException notFoundException) {
+			notFoundException.printStackTrace();
+		}
+		BufferedReader informationReaded = new BufferedReader(openingFile);
+		
+		String lineReaded = null;
+		try {
+			while ((lineReaded = informationReaded.readLine()) != null) {	/*Lê cada linha do arquivo até chegar no final*/
+				String[] linesInformations = lineReaded.split(";|;\\s");
+				this.points.put(linesInformations[0], new Point((int) Float.parseFloat(linesInformations[1]), (int) Float.parseFloat(linesInformations[2])));
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
 	}
 	
-	public ImageIcon getMap() {
+	public ImageIcon getMap() {	/*retorna o mapa armazenado*/
 		return this.map;
 	}
 	
-	public LinearProbingHashTable<String, Point> getPoints(){
+	public Hashtable<String, Point> getPoints(){	/*retorna a hash de pontos*/
 		return this.points;
 	}
 	
-	public String[] getStationNames() {
+	public String[] getStationNames() {	/*retorna os nomes já armazenados do arquivo de texto*/
 		return this.stationsNames;
 	}
 	
-	private String[] saveStationNames() {
+	private String[] saveStationNames() {	/*pega todos os vértices e armazena o nome das estações*/
 		String[] nameStations = this.stations.getAllData();
 		Arrays.sort(nameStations);
 		return nameStations;
 	}
 	
-	public IStack<String> wayBetween(String origin, String destiny) {
+	public IStack<String> wayBetween(String origin, String destiny) {	/*retorna a pilha com o caminho mínimo*/
 		return this.stations.minorWay(origin, destiny);
 	}
 	
-	public float totalTime(IStack<String> wayFound, float waitingTime) {
+	public float totalTime(IStack<String> wayFound, float waitingTime) {	/*calcula o tempo total a partir de uma pilha contendo o caminho*/
 		int stops = wayFound.size();
 		String station = wayFound.pop();
 		float timeFound = 0f;

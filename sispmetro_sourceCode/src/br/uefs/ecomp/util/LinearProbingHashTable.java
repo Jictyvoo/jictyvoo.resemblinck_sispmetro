@@ -10,7 +10,7 @@ public class LinearProbingHashTable<KeyType, InformationType> implements IHashTa
 	
 	@SuppressWarnings("unchecked")
 	public LinearProbingHashTable(int size) {
-		entries = (Entry<KeyType, InformationType>[]) new Object[size - 1];	/*ERROR*/
+		this.entries = (Entry<KeyType, InformationType>[]) new Object[size - 1];	/*ERROR*/
 	}
 	
 	public LinearProbingHashTable() {
@@ -71,6 +71,12 @@ public class LinearProbingHashTable<KeyType, InformationType> implements IHashTa
 
 	@Override
 	public InformationType get(KeyType key) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public KeyType[] keySet() {
 		// TODO Auto-generated method stub
 		return null;
 	}
