@@ -4,7 +4,7 @@ package br.uefs.ecomp.util;
  * Classe vértice que armazena dados e um vetor de arestas adjacentes ao vértice
  * @author JoÃ£o Victor Oliveira Couto
  */
-class Vertex {
+public class Vertex {
 	private Edge[] edges;	/*Arestas do grafo*/
 	private final String vertexName;	/*nome dos vertices do grafo*/
 	private int next;

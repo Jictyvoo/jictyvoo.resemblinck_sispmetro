@@ -12,6 +12,7 @@ import javax.swing.ImageIcon;
 
 import br.uefs.ecomp.util.Graph;
 import br.uefs.ecomp.util.IStack;
+import br.uefs.ecomp.util.Vertex;
 
 public class Controller {
 	
@@ -77,11 +78,11 @@ public class Controller {
 	}
 	
 	public void openMap() {	/*método para carregamento da imagem do mapa, e dados das coordenadas*/
-		this.map = new ImageIcon("../initialize/subwayMapSimplified.png");
+		this.map = new ImageIcon("../initialize/mapa-metro.jpeg");
 		/*Function to read the input coordinates file*/
 		FileReader openingFile = null;
 		try {
-			openingFile = new FileReader("../initialize/stationsCoordinates.csv");
+			openingFile = new FileReader("../initialize/coordenadas.csv");
 		} catch (FileNotFoundException notFoundException) {
 			notFoundException.printStackTrace();
 		}
@@ -131,5 +132,13 @@ public class Controller {
 		}
 		timeFound = (waitingTime * (stops - 2)) + timeFound;
 		return timeFound;
+	}
+	
+	/**
+	 * Método que retorna um vetor com todos os vértices do grafo
+	 * @return Vetor com todos os vértices do grafo
+	 */
+	public Vertex[] getAllVertex() {
+		return this.stations.getAllVertex();
 	}
 }

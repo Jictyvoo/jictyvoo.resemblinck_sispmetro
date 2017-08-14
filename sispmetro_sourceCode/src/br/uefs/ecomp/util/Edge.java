@@ -4,7 +4,7 @@ package br.uefs.ecomp.util;
  * Classe Edge que contém um vértice de destino e o peso da aresta
  * @author jvict
  */
-class Edge {
+public class Edge {
 	private Vertex vertex;
 	private float weight;
 	
@@ -23,7 +23,7 @@ class Edge {
 	 * @return	Vértice de destino da aresta
 	 */
 	public Vertex getVertex() {
-		return vertex;
+		return this.vertex;
 	}
 	
 	/**

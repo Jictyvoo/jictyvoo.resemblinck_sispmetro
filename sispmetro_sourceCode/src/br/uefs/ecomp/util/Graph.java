@@ -404,6 +404,14 @@ public class Graph {
 	}
 	
 	/**
+	 * Método que retorna um vetor com todos os vértices do grafo
+	 * @return Vetor com todos os vértices do grafo
+	 */
+	public Vertex[] getAllVertex() {
+		return this.allVertex;
+	}
+	
+	/**
 	 * Método toString do Grafo
 	 */
 	@Override

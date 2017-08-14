@@ -1,5 +1,6 @@
 package br.uefs.ecomp.view;
 
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
@@ -93,44 +94,16 @@ public class MapGUI {
 		/*JLabel wirteWay = new JLabel();
 		scrollPane.setViewportView(wirteWay);*/
 		
-		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");	/*botão para definir o evento de traçar rota e definir tempo de viagem*/
-		btnSearchMinorWay.setBounds(20, 551, 129, 23);	/*define o tamanho e posição do componente*/
-		btnSearchMinorWay.addActionListener(new ActionListener() {	/*adiciona a ação que será executada*/
-			
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				/*here came the event to search the minor way and draw in the screen*/
-				IStack<String> wayFound = Controller.getInstance().wayBetween((String) originStation.getSelectedItem(), (String) destinyStation.getSelectedItem());
-				try {
-					float timeOfWay = Controller.getInstance().totalTime(((Stack<String>) wayFound).copy(), Float.parseFloat(txtWaitTimeInput.getText()));
-					lblTotalTravelTime.setText("Total Travel Time: " + timeOfWay + " minutes");
-				
-					int initialPosition = 10;
-					jPanelRoute.removeAll();
-					while(!wayFound.isEmpty()) {
-						JLabel additting = new JLabel(wayFound.pop());
-						additting.setBounds(10, initialPosition, 300, 20);
-						jPanelRoute.add(additting);
-						initialPosition += 20;
-					}
-				}
-				catch (NumberFormatException exception) {
-					JOptionPane.showMessageDialog(new JPopupMenu(),"Insira um valor para tempo de espera!","ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-					lblTotalTravelTime.setText("Total Travel Time: ");
-					txtWaitTimeInput.setText("");
-				}
-			}
-		});
+		MapJPanel map = new MapJPanel();
+		map.setPreferredSize(new Dimension(1440, 1080));
 		
-		frame.getContentPane().add(btnSearchMinorWay);	/*adiciona o componente na tela*/
-		
-		JScrollPane scrollPaneMap = new JScrollPane();	/*define um scroll pane para por o mapa*/
+		JScrollPane scrollPaneMap = new JScrollPane(map);	/*define um scroll pane para por o mapa*/
 		scrollPaneMap.setBounds(10, 32, 854, 452);	/*define o tamanho e posição do componente*/
 		frame.getContentPane().add(scrollPaneMap);	/*adiciona o componente na tela*/
 		
-		JLabel lblSubwaymap = new JLabel();	/*label que será usada como sendo a imagem do mapa*/
-		lblSubwaymap.setIcon(Controller.getInstance().getMap());	/*seta a imagem do mapa com a carregada anteriormente pelo Controller*/
-		scrollPaneMap.setViewportView(lblSubwaymap);	/*adiciona a label do mapa no scroll pane*/
+		//JLabel lblSubwaymap = new JLabel();	/*label que será usada como sendo a imagem do mapa*/
+		//lblSubwaymap.setIcon(Controller.getInstance().getMap());	/*seta a imagem do mapa com a carregada anteriormente pelo Controller*/
+		//scrollPaneMap.setViewportView(lblSubwaymap);	/*adiciona a label do mapa no scroll pane*/
 		//lblSubwaymap.setIcon(new ImageIcon(Controller.getInstance().getMap().getImage().getScaledInstance(scrollPane.getWidth(),scrollPane.getHeight(), Image.SCALE_DEFAULT)));
 		
 		originStation.removeItemAt(1);	/*remove o item selecionado no segundo JComboBox*/
@@ -157,6 +130,41 @@ public class MapGUI {
 				destinyStation.setSelectedItem(selectedOther);
 			}
 			});
+	
+		JButton btnSearchMinorWay = new JButton("Tra\u00E7ar Rota");	/*botão para definir o evento de traçar rota e definir tempo de viagem*/
+		btnSearchMinorWay.setBounds(20, 551, 129, 23);	/*define o tamanho e posição do componente*/
+		btnSearchMinorWay.addActionListener(new ActionListener() {	/*adiciona a ação que será executada*/
+			
+			@Override
+			public void actionPerformed(ActionEvent event) {
+				/*here came the event to search the minor way and draw in the screen*/
+				IStack<String> wayFound = Controller.getInstance().wayBetween((String) originStation.getSelectedItem(), (String) destinyStation.getSelectedItem());
+				try {
+					float timeOfWay = Controller.getInstance().totalTime(((Stack<String>) wayFound).copy(), Float.parseFloat(txtWaitTimeInput.getText()));
+					lblTotalTravelTime.setText("Total Travel Time: " + timeOfWay + " minutes");
+					
+					map.setDrawMinorWay(true);
+					map.setWayMinor(wayFound);
+					map.repaint();
+					
+					/*int initialPosition = 10;
+					jPanelRoute.removeAll();
+					while(!wayFound.isEmpty()) {
+						JLabel additting = new JLabel(wayFound.pop());
+						additting.setBounds(10, initialPosition, 300, 20);
+						jPanelRoute.add(additting);
+						initialPosition += 20;
+					}*/
+				}
+				catch (NumberFormatException exception) {
+					JOptionPane.showMessageDialog(new JPopupMenu(),"Insira um valor para tempo de espera!","ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
+					lblTotalTravelTime.setText("Total Travel Time: ");
+					txtWaitTimeInput.setText("");
+				}
+			}
+		});
+		
+		frame.getContentPane().add(btnSearchMinorWay);	/*adiciona o componente na tela*/
 		
 	}
 }
