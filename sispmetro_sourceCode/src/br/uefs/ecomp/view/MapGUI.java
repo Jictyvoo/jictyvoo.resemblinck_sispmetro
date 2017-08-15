@@ -76,8 +76,8 @@ public class MapGUI {
 		lblminutos.setBounds(385, 555, 63, 14);	/*define o tamanho e posição do componente*/
 		frame.getContentPane().add(lblminutos);	/*adiciona o componente na tela*/
 		
-		JLabel lblTotalTravelTime = new JLabel("Total Travel Time: ");	/*label que contém o tempo de viagem*/
-		lblTotalTravelTime.setBounds(630, 11, 200, 14);	/*define o tamanho e posição do componente*/
+		JLabel lblTotalTravelTime = new JLabel("Tempo Total de Viagem: ");	/*label que contém o tempo de viagem*/
+		lblTotalTravelTime.setBounds(630, 12, 220, 14);	/*define o tamanho e posição do componente*/
 		frame.getContentPane().add(lblTotalTravelTime);	/*adiciona o componente na tela*/
 		
 		JLabel lblEstacoesNoCaminho = new JLabel("Esta\u00E7\u00F5es no Caminho:");	/*label com o texto Estações no Caminho:*/
@@ -141,7 +141,7 @@ public class MapGUI {
 				IStack<String> wayFound = Controller.getInstance().wayBetween((String) originStation.getSelectedItem(), (String) destinyStation.getSelectedItem());
 				try {
 					float timeOfWay = Controller.getInstance().totalTime(((Stack<String>) wayFound).copy(), Float.parseFloat(txtWaitTimeInput.getText()));
-					lblTotalTravelTime.setText("Total Travel Time: " + timeOfWay + " minutes");
+					lblTotalTravelTime.setText("Tempo Total de Viagem: " + timeOfWay + " minutos");
 					
 					map.setDrawMinorWay(true);
 					map.setWayMinor(wayFound);
@@ -158,7 +158,7 @@ public class MapGUI {
 				}
 				catch (NumberFormatException exception) {
 					JOptionPane.showMessageDialog(new JPopupMenu(),"Insira um valor para tempo de espera!","ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
-					lblTotalTravelTime.setText("Total Travel Time: ");
+					lblTotalTravelTime.setText("Tempo Total de Viagem: ");
 					txtWaitTimeInput.setText("");
 				}
 			}

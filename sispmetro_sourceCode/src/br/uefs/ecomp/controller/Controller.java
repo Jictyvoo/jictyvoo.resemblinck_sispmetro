@@ -78,11 +78,11 @@ public class Controller {
 	}
 	
 	public void openMap() {	/*método para carregamento da imagem do mapa, e dados das coordenadas*/
-		this.map = new ImageIcon("../initialize/mapa-metro.jpeg");
+		this.map = new ImageIcon("initialize/subwayNamesMap.jpeg");
 		/*Function to read the input coordinates file*/
 		FileReader openingFile = null;
 		try {
-			openingFile = new FileReader("../initialize/coordenadas.csv");
+			openingFile = new FileReader("initialize/coordinateOfStations.csv");
 		} catch (FileNotFoundException notFoundException) {
 			notFoundException.printStackTrace();
 		}

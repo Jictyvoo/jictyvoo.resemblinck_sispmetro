@@ -20,7 +20,7 @@ public class ControllerTest extends TestCase {
 		FileWriter arq;
 		PrintWriter gravarArq = null;
 		try {
-			arq = new FileWriter("../initialize/estacoesMetro.spsubsta");
+			arq = new FileWriter("initialize/estacoesMetro.spsubsta");
 			gravarArq = new PrintWriter(arq);
 			gravarArq.print("# Arquivo descrevendo o tempo entre as estações do Metrô de São Paulo.\r\n" + 
 				"# Linhas iniciadas com o caractere '#' representam comentários e devem ser ignoradas.\r\n" + 
@@ -51,7 +51,7 @@ public class ControllerTest extends TestCase {
 	@Test
 	public void testReadFile() {
 		try {
-			Controller.getInstance().parseFile("../initialize/estacoesMetro.spsubsta", this.testGraph);
+			Controller.getInstance().parseFile("initialize/estacoesMetro.spsubsta", this.testGraph);
 		} catch (FileNotFoundException e) {
 			assertFalse(true);
 		}

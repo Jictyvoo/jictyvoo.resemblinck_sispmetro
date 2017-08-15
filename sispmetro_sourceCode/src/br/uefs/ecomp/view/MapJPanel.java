@@ -86,7 +86,7 @@ public class MapJPanel extends JPanel{
 	@Override
 	public void paintComponent(Graphics g) {
 		Toolkit tkit = Toolkit.getDefaultToolkit();
-		Image img = tkit.getImage("../initialize/mapa-metro.jpeg");
+		Image img = tkit.getImage("initialize/subwayNamesMap.jpeg");
 		
 		g.drawImage(img, 0, 0, this);
 		
