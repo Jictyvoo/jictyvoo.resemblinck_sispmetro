@@ -44,6 +44,14 @@ public class StackTest extends TestCase {
 	}
 
 	@Test
+	public void testPeekIsntEmpty() {
+		Stack<Integer> integerStack = new Stack<Integer>();
+		for (int count = 0; count < 20; count += 1)
+			integerStack.push(count);
+		assertEquals(new Integer(19), integerStack.peek());
+	}
+
+	@Test
 	public void testIsntEmpty() {
 		Stack<Integer> integerStack = new Stack<Integer>();
 		for (int count = 0; count < 7; count += 1)
