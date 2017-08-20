@@ -6,7 +6,7 @@ import java.io.FileNotFoundException;
 import br.uefs.ecomp.controller.Controller;
 
 public class Program {
-
+	
 	/**
 	 * Launch the application.
 	 */
@@ -29,5 +29,5 @@ public class Program {
 			}
 		});
 	}
-
+	
 }
