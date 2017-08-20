@@ -16,6 +16,13 @@ import br.uefs.ecomp.util.Edge;
 import br.uefs.ecomp.util.IStack;
 import br.uefs.ecomp.util.Vertex;
 
+<<<<<<< HEAD
+public class MapJPanel extends JPanel {
+
+	private boolean drawMinorWay = false;
+	private String[] wayMinor;
+
+=======
 /**
  * Classe que herda de JPanel e sobrescreve o método paintComponent(), permitindo gravar a imagem
  * no painel e desenhar em cima da mesma.
@@ -28,10 +35,19 @@ public class MapJPanel extends JPanel{
 	private String[] wayMinor; //Nomes das estações do menor caminho a ser pintado.
 	private static final long serialVersionUID = -1999969049240617025L;
 	
+>>>>>>> 4ae2998f0b2b5a4af38b1491893f8df960d7cc52
 	/**
 	 * Método que altera o estado da variável drawMinorWay, para indicar o momento certo que o menor
 	 * caminho é requisitado.
 	 */
+<<<<<<< HEAD
+	private static final long serialVersionUID = -1999969049240617025L;
+
+	public void setDrawMinorWay(boolean b) {
+		this.drawMinorWay = b;
+	}
+
+=======
 	public void setDrawMinorWay(boolean b) {
 		this.drawMinorWay = b;
 	}
@@ -41,10 +57,11 @@ public class MapJPanel extends JPanel{
 	 * estações em um vetor de Strings.
 	 * @param wayFound IStack - Pilha contendo o menor caminho.
 	 */
+>>>>>>> 4ae2998f0b2b5a4af38b1491893f8df960d7cc52
 	public void setWayMinor(IStack<String> wayFound) {
 		this.wayMinor = new String[wayFound.size()];
 		int i = 0;
-		while(!wayFound.isEmpty()) {
+		while (!wayFound.isEmpty()) {
 			wayMinor[i++] = wayFound.pop();
 		}
 	}
@@ -54,6 +71,26 @@ public class MapJPanel extends JPanel{
 	 * @param g Graphics2D - Componente que desenha as linhas na imagem.
 	 */
 	private void drawLines(Graphics2D g) {
+<<<<<<< HEAD
+
+		BasicStroke dashed = new BasicStroke((float) 6);
+		g.setStroke(dashed);
+		g.setColor(Color.gray);
+		Vertex[] allVertex = Controller.getInstance().getAllVertex();
+		Hashtable<String, Point> points = Controller.getInstance().getPoints();
+
+		for (int i = 0; i < allVertex.length; i++) {
+
+			Point p1 = points.get(allVertex[i].getVertexName());
+			g.fillOval(p1.x, p1.y, 12, 12);
+			Edge[] edges = allVertex[i].getEdges();
+
+			for (int j = 0; j < edges.length; j++) {
+
+				if (edges[j] != null && edges[j].getVertex() != null) {
+					Point p2 = points.get(edges[j].getVertex().getVertexName());
+					g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6);
+=======
 		
 		BasicStroke dashed = new BasicStroke ((float) 6); //Objeto para engrossar as linhas que serão desenhadas. 
 		g.setStroke(dashed); //Engrossa as linhas
@@ -72,12 +109,31 @@ public class MapJPanel extends JPanel{
 				if(edges[j] != null && edges[j].getVertex() != null) {
 				Point p2 = points.get(edges[j].getVertex().getVertexName()); //Pega o vértice adjacente
 				g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6); //Liga os vértices
+>>>>>>> 4ae2998f0b2b5a4af38b1491893f8df960d7cc52
 				}
-				
+
 			}
-			
+
 		}
 	}
+<<<<<<< HEAD
+
+	private void drawMinorWay(Graphics g) {
+
+		Hashtable<String, Point> points = Controller.getInstance().getPoints();
+		BasicStroke dashed = new BasicStroke((float) 6);
+		((Graphics2D) g).setStroke(dashed);
+		g.setColor(Color.RED);
+
+		for (int i = 0; i < this.wayMinor.length - 1; i++) {
+
+			Point p1 = points.get(this.wayMinor[i]);
+			g.fillOval(p1.x, p1.y, 12, 12);
+			Point p2 = points.get(this.wayMinor[i + 1]);
+			g.fillOval(p2.x, p2.y, 12, 12);
+			g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6);
+
+=======
 	
 	/**
 	 * Método que desenha o menor caminho entre duas estações
@@ -98,9 +154,28 @@ public class MapJPanel extends JPanel{
 			g.fillOval(p2.x, p2.y, 12, 12); //Desenha um ponto
 			g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6); //Liga as duas estações
 			
+>>>>>>> 4ae2998f0b2b5a4af38b1491893f8df960d7cc52
 		}
-		
+
 	}
+<<<<<<< HEAD
+
+	@Override
+	public void paintComponent(Graphics g) {
+		Toolkit tkit = Toolkit.getDefaultToolkit();
+		Image img = tkit.getImage("initialize/subwayNamesMap.jpeg");
+
+		g.drawImage(img, 0, 0, this);
+
+		drawLines((Graphics2D) g);
+
+		if (drawMinorWay) {
+			drawMinorWay(g);
+		}
+
+		((Graphics2D) g).dispose();
+
+=======
 	
 	/**
 	 * Sobrescrita do método paintComponent.
@@ -120,6 +195,7 @@ public class MapJPanel extends JPanel{
 		
 		((Graphics2D)g).dispose(); //Destrói o objeto
 	
+>>>>>>> 4ae2998f0b2b5a4af38b1491893f8df960d7cc52
 	}
 
 }
