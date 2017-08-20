@@ -80,9 +80,6 @@ public class MapGUI {
 		lblTotalTravelTime.setBounds(630, 12, 220, 14);	/*define o tamanho e posição do componente*/
 		frame.getContentPane().add(lblTotalTravelTime);	/*adiciona o componente na tela*/
 		
-		/*JLabel wirteWay = new JLabel();
-		scrollPane.setViewportView(wirteWay);*/
-		
 		MapJPanel map = new MapJPanel(); /*define um MapJPanel que herda de JPanel. Contém a imagem do mapa e permite realizar o desenho*/
 		map.setPreferredSize(new Dimension(1440, 1080)); /*define as dimensões do MapJPanel*/
 		

@@ -30,7 +30,6 @@ public class Controller {
 	private Controller() {
 		this.stations = new Graph();
 		this.stationsNames = null;
-		//this.points = new LinearProbingHashTable<String, Point>();
 		this.points = new Hashtable<String, Point>();
 	}
 	
