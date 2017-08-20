@@ -16,7 +16,7 @@ public class Program {
 		} catch (FileNotFoundException e1) {
 			e1.printStackTrace();
 		} finally {
-			Controller.getInstance().openMap();
+			Controller.getInstance().getCoordinates();
 		}
 		EventQueue.invokeLater(new Runnable() {
 			public void run() {

@@ -80,11 +80,8 @@ public class MapGUI {
 		lblTotalTravelTime.setBounds(630, 12, 220, 14);	/*define o tamanho e posição do componente*/
 		frame.getContentPane().add(lblTotalTravelTime);	/*adiciona o componente na tela*/
 		
-		/*JLabel wirteWay = new JLabel();
-		scrollPane.setViewportView(wirteWay);*/
-		
-		MapJPanel map = new MapJPanel();
-		map.setPreferredSize(new Dimension(1440, 1080));
+		MapJPanel map = new MapJPanel(); /*define um MapJPanel que herda de JPanel. Contém a imagem do mapa e permite realizar o desenho*/
+		map.setPreferredSize(new Dimension(1440, 1080)); /*define as dimensões do MapJPanel*/
 		
 		JScrollPane scrollPaneMap = new JScrollPane(map);	/*define um scroll pane para por o mapa*/
 		scrollPaneMap.setBounds(10, 32, 854, 452);	/*define o tamanho e posição do componente*/
@@ -127,9 +124,9 @@ public class MapGUI {
 					float timeOfWay = Controller.getInstance().totalTime(((Stack<String>) wayFound).copy(), Float.parseFloat(txtWaitTimeInput.getText()));
 					lblTotalTravelTime.setText("Tempo Total de Viagem: " + timeOfWay + " minutos");
 					
-					map.setDrawMinorWay(true);
-					map.setWayMinor(wayFound);
-					map.repaint();
+					map.setDrawMinorWay(true); /*indica quando o menor caminho deve ser desenhado*/
+					map.setWayMinor(wayFound); /*passa uma pilha contendo o menor caminho*/
+					map.repaint(); /*pinta novamente o componente, agora com o menor caminho*/
 				}
 				catch (NumberFormatException exception) {
 					JOptionPane.showMessageDialog(new JPopupMenu(),"Insira um valor para tempo de espera!","ATENÇÃO", JOptionPane.INFORMATION_MESSAGE);
