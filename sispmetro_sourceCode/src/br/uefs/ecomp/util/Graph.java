@@ -2,7 +2,7 @@ package br.uefs.ecomp.util;
 
 /**
  * Classe Grafo que armazena uma lista de vértices e os conecta através de arestas
- * @author João Victor Oliveira Couto
+ * @author João Victor Oliveira Couto & Resemblinck Freitas
  */
 public class Graph {
 	private Vertex[] allVertex;

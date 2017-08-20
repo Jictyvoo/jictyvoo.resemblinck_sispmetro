@@ -1,6 +1,7 @@
 package br.uefs.ecomp.controller;
 
 import java.awt.Point;
+
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
@@ -8,40 +9,59 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Hashtable;
 
-import javax.swing.ImageIcon;
-
 import br.uefs.ecomp.util.Graph;
 import br.uefs.ecomp.util.IStack;
 import br.uefs.ecomp.util.Vertex;
 
+/**
+ * Classe que controla o sistema.
+ * @author Joao Victor & Resemblinck Freitas
+ */
 public class Controller {
 	
 	private static Controller controllerInstance;
 	private Graph stations;
 	private String[] stationsNames;
-	
-	private ImageIcon map;
 	private Hashtable<String, Point> points;
 	
-	private Controller() {	/*construtor privado do Controller para Singletone*/
+	/**
+	 * Construtor privado do Controller para Singletone.
+	 */
+	private Controller() {
 		this.stations = new Graph();
 		this.stationsNames = null;
 		//this.points = new LinearProbingHashTable<String, Point>();
 		this.points = new Hashtable<String, Point>();
-		this.map = null;
 	}
 	
-	public static Controller getInstance() {	/*Método estático para adquirir o objeto Singletone*/
+	/**
+	 * Método estático para adquirir o objeto Singletone.
+	 * @return Um objeto do tipo Controller.
+	 */
+	public static Controller getInstance() {
 		if(controllerInstance == null)
 			controllerInstance = new Controller();
 		return controllerInstance;
 	}
 	
+	/**
+	 * Método auxiliar para leitura do arquivo e que salva o nome dos vértices em um vetor de strings. 
+	 * @param fileNamePath String - Nome ou diretório do arquivo 
+	 * @throws FileNotFoundException
+	 */
 	public void parseFile(String fileNamePath) throws FileNotFoundException {
 		this.parseFile(fileNamePath, this.stations);
 		this.stationsNames = this.saveStationNames();	/*salva o nome do arquivo na primeira vez para não pesquisar os nomes novamente*/
 	}
 	
+	/**
+	 * Método que realiza a leitura do arquivo transformando os dados lidos em vértices (Estações)
+	 * e adicionando no Grafo.
+	 * 
+	 * @param fileNamePath String - Nome ou diretório do arquivo.
+	 * @param saveVertexEdgesGraph Graph - Grafo onde os vértices (Estações) serão salvos.
+	 * @throws FileNotFoundException
+	 */
 	public void parseFile(String fileNamePath, Graph saveVertexEdgesGraph) throws FileNotFoundException {
 		FileReader openingFile = new FileReader(fileNamePath);
 		BufferedReader informationReaded = new BufferedReader(openingFile);
@@ -77,9 +97,11 @@ public class Controller {
 		}
 	}
 	
-	public void openMap() {	/*método para carregamento da imagem do mapa, e dados das coordenadas*/
-		this.map = new ImageIcon("initialize/subwayNamesMap.jpeg");
-		/*Function to read the input coordinates file*/
+	/**
+	 * Método para carregamento dos dados das coordenadas dos vértices e salva em uma Hashtable, 
+	 * para possibilitar o desenho na tela.
+	 */
+	public void getCoordinates() {
 		FileReader openingFile = null;
 		try {
 			openingFile = new FileReader("initialize/coordinateOfStations.csv");
@@ -92,35 +114,60 @@ public class Controller {
 		try {
 			while ((lineReaded = informationReaded.readLine()) != null) {	/*Lê cada linha do arquivo até chegar no final*/
 				String[] linesInformations = lineReaded.split(";|;\\s");
-				this.points.put(linesInformations[0], new Point((int) Float.parseFloat(linesInformations[1]), (int) Float.parseFloat(linesInformations[2])));
+				this.points.put(linesInformations[0], new Point((int) Float.parseFloat(linesInformations[1]), 
+						(int) Float.parseFloat(linesInformations[2])));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
 	}
 	
-	public ImageIcon getMap() {	/*retorna o mapa armazenado*/
-		return this.map;
-	}
-	
-	public Hashtable<String, Point> getPoints(){	/*retorna a hash de pontos*/
+	/**
+	 * Método que retorna uma Hashtable contendo as coordenadas de cada estação do mapa.
+	 * @return Hashtable de coordenadas.
+	 */
+	public Hashtable<String, Point> getPoints(){
 		return this.points;
 	}
 	
-	public String[] getStationNames() {	/*retorna os nomes já armazenados do arquivo de texto*/
+	/**
+	 * Método que retorna os nomes de todas as estações, armazenado anteriormente no momento
+	 * da leitura do arquivo.
+	 * @return String[] - Vetor de Strings contendo os nomes.
+	 */
+	public String[] getStationNames() {
 		return this.stationsNames;
 	}
 	
-	private String[] saveStationNames() {	/*pega todos os vértices e armazena o nome das estações*/
+	/**
+	 * Método privado que armazena o nome das estações no vetor de Strings a ser retornado.
+	 * @return
+	 */
+	private String[] saveStationNames() {
 		String[] nameStations = this.stations.getAllData();
 		Arrays.sort(nameStations);
 		return nameStations;
 	}
 	
-	public IStack<String> wayBetween(String origin, String destiny) {	/*retorna a pilha com o caminho mínimo*/
+	/**
+	 * Método que solicita ao Grafo pelo caminho mínimo entre dois vértices (Estações) e retorna
+	 * uma pilha contendo esse caminho.
+	 * @param origin String - Nome da estação de origem.
+	 * @param destiny String - Nome da estação de destino.
+	 * @return IStack - Pilha contendo o menor caminho entre os dois vértices.
+	 */
+	public IStack<String> wayBetween(String origin, String destiny) {
 		return this.stations.minorWay(origin, destiny);
 	}
 	
+	/**
+	 * Método que calcula o tempo total de percursso a partir de uma pilha contendo o menor caminho
+	 * entre duas estações.
+	 * 
+	 * @param wayFound IStack - Pilha contendo menor caminho.
+	 * @param waitingTime float - Tempo que o mêtro fica parado nas estações.
+	 * @return float - Tempo total do percurso.
+	 */
 	public float totalTime(IStack<String> wayFound, float waitingTime) {	/*calcula o tempo total a partir de uma pilha contendo o caminho*/
 		int stops = wayFound.size();
 		String station = wayFound.pop();

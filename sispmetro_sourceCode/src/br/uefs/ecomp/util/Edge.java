@@ -2,7 +2,7 @@ package br.uefs.ecomp.util;
 
 /**
  * Classe Edge que contém um vértice de destino e o peso da aresta
- * @author jvict
+ * @author Joao Victor & Resemblinck Freitas
  */
 public class Edge {
 	private Vertex vertex;
