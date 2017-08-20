@@ -47,7 +47,7 @@ public class MapJPanel extends JPanel {
 	public void setWayMinor(IStack<String> wayFound) {
 		this.wayMinor = new String[wayFound.size()];
 		int i = 0;
-		while (!wayFound.isEmpty()) {
+		while(!wayFound.isEmpty()) {
 			wayMinor[i++] = wayFound.pop();
 		}
 	}
@@ -78,9 +78,9 @@ public class MapJPanel extends JPanel {
 					Point p2 = points.get(edges[j].getVertex().getVertexName()); // Pega o vértice adjacente
 					g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6); // Liga os vértices
 				}
-
+				
 			}
-
+			
 		}
 	}
 
@@ -91,24 +91,23 @@ public class MapJPanel extends JPanel {
 	 *            Graphics - Componente que desenha as linhas na imagem.
 	 */
 	private void drawMinorWay(Graphics g) {
+		Hashtable<String, Point> points = Controller.getInstance().getPoints(); //Pega todas as coordenadas das estações no mapa
+		BasicStroke dashed = new BasicStroke ((float) 6); //Objeto para engrossar as linhas que serão desenhadas. 
+		((Graphics2D) g).setStroke(dashed); //Engrossa as linhas
+		g.setColor(Color.RED); //Define a cor como vermelho
 
-		Hashtable<String, Point> points = Controller.getInstance().getPoints(); // Pega todas as coordenadas das
-																				// estações no mapa
-		BasicStroke dashed = new BasicStroke((float) 6); // Objeto para engrossar as linhas que serão desenhadas.
-		((Graphics2D) g).setStroke(dashed); // Engrossa as linhas
-		g.setColor(Color.RED); // Define a cor como vermelho
-		int i = 0;
-		for (i = 0; i < this.wayMinor.length - 1; i++) {
-
-			Point p1 = points.get(this.wayMinor[i]); // Pega as coordenadas de uma estação
-			g.fillOval(p1.x, p1.y, 12, 12); // Desenha um ponto
-			Point p2 = points.get(this.wayMinor[i + 1]); // Pega as coordenadas de outra estação
-			g.fillOval(p2.x, p2.y, 12, 12); // Desenha um ponto
-			g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6); // Liga as duas estações
+		for (int i = 0; i < this.wayMinor.length - 1; i++) { 
+			
+			Point p1 = points.get(this.wayMinor[i]); //Pega as coordenadas de uma estação
+			g.fillOval(p1.x, p1.y, 12, 12); //Desenha um ponto
+			Point p2 = points.get(this.wayMinor[i+1]); //Pega as coordenadas de outra estação
+			g.fillOval(p2.x, p2.y, 12, 12); //Desenha um ponto
+			g.drawLine(p1.x + 6, p1.y + 6, p2.x + 6, p2.y + 6); //Liga as duas estações
+			
 		}
-
+		
 	}
-
+	
 	/**
 	 * Sobrescrita do método paintComponent.
 	 */
@@ -126,6 +125,7 @@ public class MapJPanel extends JPanel {
 		}
 
 		((Graphics2D) g).dispose(); // Destrói o objeto
+	
 	}
 
 }

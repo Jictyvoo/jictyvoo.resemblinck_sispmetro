@@ -1,26 +1,26 @@
 package br.uefs.ecomp.util;
 
 /**
- * @author Jictyvoo
+ * @author João Victor O& Resemblinck
  **/
-public class Stack<TypeReceived> implements IStack<TypeReceived>{
-	
-	private class Node<TypeNode>{
+public class Stack<TypeReceived> implements IStack<TypeReceived> {
+
+	private class Node<TypeNode> {
 		Node<TypeNode> next;
 		TypeNode information;
 		Node<TypeNode> previous;
 	}
-	
+
 	private Node<TypeReceived> first;
 	private int sizeVar;
 	private Node<TypeReceived> last;
-	
-	public Stack(){
+
+	public Stack() {
 		this.first = null;
 		this.sizeVar = 0;
 		this.last = null;
 	}
-	
+
 	@Override
 	public int size() {
 		return this.sizeVar;
@@ -33,11 +33,11 @@ public class Stack<TypeReceived> implements IStack<TypeReceived>{
 
 	@Override
 	public TypeReceived pop() {
-		if(this.first == null)
+		if (this.first == null)
 			return null;
 		TypeReceived temporary = this.first.information;
 		this.first = this.first.next;
-		if(this.first != null)
+		if (this.first != null)
 			this.first.previous = null;
 		this.sizeVar = this.sizeVar - 1;
 		return temporary;
@@ -48,7 +48,7 @@ public class Stack<TypeReceived> implements IStack<TypeReceived>{
 		Node<TypeReceived> temporary = new Node<TypeReceived>();
 		temporary.information = obj;
 		temporary.next = this.first;
-		if(this.first != null)
+		if (this.first != null)
 			this.first.previous = temporary;
 		else
 			this.last = temporary;
@@ -58,29 +58,29 @@ public class Stack<TypeReceived> implements IStack<TypeReceived>{
 
 	@Override
 	public TypeReceived peek() {
-		if(this.first != null)
+		if (this.first != null)
 			return this.first.information;
 		return null;
 	}
-	
-	public Stack<TypeReceived> copy(){
+
+	public Stack<TypeReceived> copy() {
 		Stack<TypeReceived> newStack = new Stack<TypeReceived>();
 		Node<TypeReceived> temporary = this.last;
-		while(temporary != null) {
+		while (temporary != null) {
 			newStack.push(temporary.information);
 			temporary = temporary.previous;
 		}
 		return newStack;
 	}
-	
-	public Stack<TypeReceived> inverse(){
+
+	public Stack<TypeReceived> inverse() {
 		Stack<TypeReceived> newStack = new Stack<TypeReceived>();
 		Node<TypeReceived> temporary = this.first;
-		while(temporary != null) {
+		while (temporary != null) {
 			newStack.push(temporary.information);
 			temporary = temporary.next;
 		}
 		return newStack;
 	}
-	
+
 }

@@ -1,8 +1,7 @@
 package br.uefs.ecomp.util;
 
 /**
- * Classe vértice que armazena dados e um vetor de arestas adjacentes ao vértice
- * 
+ * Classe vértice que armazena dados e um vetor de arestas adjacentes ao vértice 
  * @author JoÃ£o Victor Oliveira Couto & Resemblinck Freitas
  */
 public class Vertex {
@@ -12,18 +11,20 @@ public class Vertex {
 
 	/**
 	 * Construtor do vertice.
+	 * 
 	 * @param nameOfVertex
 	 */
-	public Vertex(String nameOfVertex){	
+	public Vertex(String nameOfVertex) {
 		this.edges = new Edge[1];
 		this.vertexName = nameOfVertex;
 		this.next = 0;
 	}
-	
+
 	/**
-	 * Método privado para expandir o tamanho do array de arestas contido dentro do vértice.
+	 * Método privado para expandir o tamanho do array de arestas contido dentro do
+	 * vértice.
 	 */
-	private void expandVectors(){	/* funcao para expandir o tamanho do vetor de arestas */
+	private void expandVectors() {
 		Edge[] temporaryV = new Edge[this.edges.length + 1];
 		for (int position = 0; position < this.edges.length; position += 1)
 			temporaryV[position] = this.edges[position];
@@ -33,10 +34,13 @@ public class Vertex {
 
 	/**
 	 * Método que adiciona um vértice adjacente e uma aresta de ligação.
-	 * @param newLigation Vertex - novo vértice adjacente ao vertice atual.
-	 * @param ligationCost float - Peso da aresta de ligação.
+	 * 
+	 * @param newLigation
+	 *            Vertex - novo vértice adjacente ao vertice atual.
+	 * @param ligationCost
+	 *            float - Peso da aresta de ligação.
 	 */
-	public void addEdge(Vertex newLigation, float ligationCost){
+	public void addEdge(Vertex newLigation, float ligationCost) {
 		int newEdgePosition = this.next;
 		for (int position = 0; position < this.next; position += 1) {
 			Edge search = this.edges[position];
@@ -53,10 +57,11 @@ public class Vertex {
 			this.next += 1;
 	}
 
-	
 	/**
 	 * Método que remove um vértice adjacente e sua aresta de ligação.
-	 * @param edgeThis Vertex - Vértice adjacente que será removido.
+	 * 
+	 * @param edgeThis
+	 *            Vertex - Vértice adjacente que será removido.
 	 * @return Boolean - True se remover, False caso contrário.
 	 */
 	public boolean removeEdge(Vertex edgeThis) {
@@ -87,10 +92,13 @@ public class Vertex {
 			this.removeEdge(this.edges[0].getVertex());
 		}
 	}
-	
+
 	/**
-	 * Método que retorna o peso de uma aresta de ligação entre o vértice atual e outro vértice requisitado.
-	 * @param destiny Vertex - Vértice adjacente.
+	 * Método que retorna o peso de uma aresta de ligação entre o vértice atual e
+	 * outro vértice requisitado.
+	 * 
+	 * @param destiny
+	 *            Vertex - Vértice adjacente.
 	 * @return float - Peso da aresta de ligação.
 	 */
 	public float getEdge(Vertex destiny) {
@@ -104,25 +112,28 @@ public class Vertex {
 
 	/**
 	 * Método que retorna o grau do vértice.
+	 * 
 	 * @return int - Grau do vértice.
 	 */
-	public int vertexDegree(){
+	public int vertexDegree() {
 		return this.next;
 	}
-	
+
 	/**
 	 * Método que retorna o nome do vértice.
+	 * 
 	 * @return String - Nome do vértice.
 	 */
-	public String getVertexName(){
+	public String getVertexName() {
 		return this.vertexName;
 	}
-	
+
 	/**
 	 * Método que retorna todas as arestas ligadas ao vértice.
+	 * 
 	 * @return Edge[] - Vetor contendo todas as arestas do vértice.
 	 */
-	public Edge[] getEdges(){
+	public Edge[] getEdges() {
 		return this.edges;
 	}
 
