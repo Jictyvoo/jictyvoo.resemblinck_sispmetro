@@ -102,22 +102,22 @@ public class Dijkstra {
 	public IStack<String> minorWay(Vertex first, Vertex second, Graph mainGraph) {
 		if(first == null || second == null)
 			return null;
-		if(first == second) {
+		if(first == second) {	/*verifica se a origem é igual ao destino*/
 			IStack<String> returnSame = new Stack<String>();
 			returnSame.push(first.getVertexName());
 			return returnSame;
 		}
 		
-		Searching[] vertex = new Searching[mainGraph.getNumOfVertex()];
+		Searching[] vertex = new Searching[mainGraph.getNumOfVertex()];	/*prepara os vértices para a execução do Dijkstra*/
 		for(int position = 0; position < vertex.length; position += 1)
 			vertex[position] = new Searching(mainGraph.getAllVertex()[position]);
 		
 		this.getSearchingVertex(first, vertex).setPrevious(null);
-		this.searchWay(first, second, vertex);
+		this.searchWay(first, second, vertex);	/*executa Dijkstra*/
 		
 		IStack<String> returnWay = new Stack<String>();
 		Searching newStack = this.getSearchingVertex(second, vertex);
-		if(newStack.getPrevious() != null) {
+		if(newStack.getPrevious() != null) {	/*constrói a pilha com o menor caminho*/
 			while(newStack != null) {
 				returnWay.push(newStack.getVertex().getVertexName());
 				newStack = newStack.getPrevious();
